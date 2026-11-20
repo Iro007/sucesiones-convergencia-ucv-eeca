@@ -1,0 +1,54 @@
+WEBVTT
+
+1
+00:00:00.350 --> 00:00:08.687
+Una sucesión {Xₙ} indexa variables aleatorias en (Ω, ℱ, P), cada una con distribución Fₙ(x).
+
+2
+00:00:09.037 --> 00:00:20.117
+Con siniestros normales i.i.d. Xᵢ ∼ N(50, 100), la media muestral X̄ₙ ∼ N(50, 100/n) es normal exacta para todo n.
+
+3
+00:00:20.917 --> 00:00:28.573
+Al fijar ω₁ ∈ Ω observamos una trayectoria {X̄ₙ(ω₁)} sobre términos finitos.
+
+4
+00:00:28.923 --> 00:00:38.117
+Al superponer 15 trayectorias, su dispersión disminuye y casi todas entran en |x − 50| < 2.
+
+5
+00:00:38.917 --> 00:00:49.722
+Convergencia en probabilidad (Def. 5.1.2): lím P[|X̄ₙ − 50| ≥ ε] = 0 para todo ε > 0.
+
+6
+00:00:50.072 --> 00:00:58.536
+Con escala vertical fija hasta 1,0, al crecer n la densidad se concentra entre los bordes 48 y 52.
+
+7
+00:00:58.886 --> 00:01:13.648
+Bajo el modelo normal, n = 97 es el mínimo: n = 96 da ≈ 0,94995648 (< 0,95) y n = 97 da ≈ 0,95113544.
+
+8
+00:01:13.998 --> 00:01:27.242
+Con la cota de Tchebycheff mín(1; 100/(4n)), n ≥ 500 garantiza el objetivo sin asumir normalidad (pico ≈ 0,892).
+
+9
+00:01:28.242 --> 00:01:39.418
+Def. 5.1.1: {Xₙ} →ᶠ X si lím Fₙ(x) = F_X(x) en todo punto de continuidad de F_X (Teor. 5.1.1 si X = c).
+
+10
+00:01:39.768 --> 00:01:58.519
+Moivre–Laplace en b(10; 0,5): 0,56836 exacto redondeado; 0,56845 con tabla del curso; 0,56716 sin redondear z.
+
+11
+00:01:59.419 --> 00:02:14.079
+Al crecer n disminuye la variabilidad de X̄ₙ (Var = 100/n): en n = 400 el riesgo fuera de ±2 baja a ≈ 0,0063%.
+
+12
+00:02:14.429 --> 00:02:24.150
+Consistencia (Teor. 5.1.3): para todo ε > 0, P[|Sₙ² − σ²| ≥ ε] ≤ 2σ⁴/((n−1)ε²) → 0 ⇒ {Sₙ²} →ᴾ σ².
+
+13
+00:02:24.950 --> 00:02:35.557
+Jerarquía: (c.s. ó L²) ⇒ en probabilidad (→ᴾ) ⇒ en distribución (→ᶠ). Ramírez y Vásquez (2005); Rincón (2010).
+

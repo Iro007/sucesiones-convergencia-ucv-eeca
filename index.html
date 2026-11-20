@@ -1,0 +1,1961 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Simulador interactivo, definiciones formales, video con locución y ejercicios resueltos de Sucesiones de Variables Aleatorias y Convergencia — Teoría de la Probabilidad II (UCV · EECA)." />
+  <title>Sucesiones de Variables Aleatorias y Convergencia — Probabilidad II (UCV · EECA)</title>
+  <script src="./assets/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --navy: #0B2545;
+      --navy-deep: #071930;
+      --teal: #0D7377;
+      --teal-soft: #E6F6F5;
+      --amber: #B4751B;
+      --amber-soft: #FEF6E7;
+      --coral: #C81E1E;
+      --coral-soft: #FEF2F2;
+      --mint: #0F766E;
+      --ink: #0F172A;
+      --ink-muted: #475569;
+      --line: #CBD5E1;
+      --surface: #FFFFFF;
+      --surface-subtle: #F8FAFC;
+
+      /* Apple Liquid Glass Material Tokens (solo navegación y controles) */
+      --glass-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.72) 0%, rgba(244, 249, 255, 0.50) 100%);
+      --glass-bg-strong: linear-gradient(135deg, rgba(255, 255, 255, 0.80) 0%, rgba(241, 247, 254, 0.62) 100%);
+      --glass-border: rgba(255, 255, 255, 0.86);
+      --glass-outer-stroke: rgba(11, 37, 69, 0.10);
+      --glass-shadow:
+        0 14px 36px rgba(11, 37, 69, 0.11),
+        0 2px 8px rgba(11, 37, 69, 0.06),
+        inset 0 1.5px 0 rgba(255, 255, 255, 0.96),
+        inset 0 -1px 0 rgba(11, 37, 69, 0.07);
+      --radius-lg: 24px;
+      --radius-md: 16px;
+      --radius-pill: 999px;
+      --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", "Segoe UI", Roboto, sans-serif;
+      color: var(--ink);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      padding-bottom: 5.5rem;
+      background:
+        radial-gradient(640px circle at 10% 6%, rgba(20, 184, 166, 0.22), transparent 56%),
+        radial-gradient(620px circle at 92% 10%, rgba(56, 189, 248, 0.22), transparent 55%),
+        radial-gradient(560px circle at 52% 48%, rgba(14, 165, 233, 0.10), transparent 58%),
+        radial-gradient(580px circle at 18% 88%, rgba(201, 138, 44, 0.13), transparent 56%),
+        #E9F0F6;
+      background-attachment: fixed;
+    }
+
+    @media (min-width: 768px) {
+      body { padding-bottom: 2.5rem; }
+    }
+
+    /* Capa de vidrio (Apple HIG Materials / Liquid Glass): exclusivamente chrome y controles */
+    .liquid-glass {
+      position: relative;
+      background: var(--glass-bg);
+      backdrop-filter: blur(26px) saturate(195%) brightness(1.03);
+      -webkit-backdrop-filter: blur(26px) saturate(195%) brightness(1.03);
+      border: 1px solid var(--glass-border);
+      outline: 1px solid var(--glass-outer-stroke);
+      box-shadow: var(--glass-shadow);
+    }
+
+    .liquid-glass::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.48) 0%, rgba(255, 255, 255, 0.0) 42%);
+    }
+
+    .liquid-glass > * { position: relative; z-index: 1; }
+
+    /* Superficie opaca de alto contraste para fórmulas, gráficos y ejercicios */
+    .content-surface {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 8px 24px rgba(11, 37, 69, 0.06);
+    }
+
+    /* Accesibilidad: foco visible en todos los controles */
+    a:focus-visible,
+    button:focus-visible,
+    input:focus-visible,
+    summary:focus-visible,
+    video:focus-visible {
+      outline: 3px solid var(--teal);
+      outline-offset: 2px;
+    }
+
+    /* Preferencias del sistema + conmutador manual "Paneles opacos" */
+    @media (prefers-reduced-transparency: reduce) {
+      .liquid-glass {
+        background: #FFFFFF !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        border: 1px solid #94A3B8 !important;
+        outline: none !important;
+      }
+      .liquid-glass::before { display: none !important; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    body.solid-mode {
+      background: #EEF2F6 !important;
+    }
+    body.solid-mode .liquid-glass {
+      background: #FFFFFF !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      border: 1px solid #94A3B8 !important;
+      outline: none !important;
+      box-shadow: 0 3px 10px rgba(11, 37, 69, 0.08) !important;
+    }
+    body.solid-mode .liquid-glass::before { display: none !important; }
+    body.solid-mode *, body.solid-mode *::before, body.solid-mode *::after {
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+    }
+
+    /* Contenedor */
+    .container {
+      width: 100%;
+      max-width: 1152px;
+      margin-inline: auto;
+      padding-inline: 0.875rem;
+    }
+    @media (min-width: 640px) {
+      .container { padding-inline: 1.25rem; }
+    }
+
+    /* Barra de navegación flotante Liquid Glass */
+    .site-header {
+      position: sticky;
+      top: 0.55rem;
+      z-index: 40;
+      padding-inline: 0.75rem;
+      margin-top: 0.55rem;
+    }
+    .nav-shell {
+      max-width: 1152px;
+      margin-inline: auto;
+      border-radius: var(--radius-pill);
+      padding: 0.45rem 0.65rem 0.45rem 1.05rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+    .brand { min-width: 0; }
+    .brand-kicker {
+      margin: 0;
+      font-size: 0.66rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: var(--teal);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .brand-title {
+      margin: 0;
+      font-size: 0.94rem;
+      font-weight: 800;
+      color: var(--navy);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .desktop-nav {
+      display: none;
+      align-items: center;
+      gap: 0.2rem;
+    }
+    @media (min-width: 820px) {
+      .desktop-nav { display: flex; }
+      .brand-kicker { font-size: 0.70rem; }
+      .brand-title { font-size: 1.02rem; }
+    }
+    .desktop-nav a {
+      text-decoration: none;
+      color: var(--navy);
+      font-size: 0.86rem;
+      font-weight: 700;
+      padding: 0.48rem 0.85rem;
+      border-radius: var(--radius-pill);
+      transition: background 180ms var(--ease-spring), color 180ms var(--ease-spring);
+    }
+    .desktop-nav a:hover {
+      background: rgba(13, 115, 119, 0.13);
+      color: var(--teal);
+    }
+    .btn-solid-toggle {
+      min-height: 40px;
+      padding: 0.45rem 0.95rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      background: var(--navy);
+      color: #FFFFFF;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: transform 150ms var(--ease-spring), background 150ms;
+    }
+    .btn-solid-toggle:hover { background: #143963; }
+    .btn-solid-toggle:active { transform: scale(0.97); }
+
+    /* Barra flotante móvil Liquid Glass (Tab Bar) */
+    .mobile-dock {
+      position: fixed;
+      bottom: 0.65rem;
+      left: 0.75rem;
+      right: 0.75rem;
+      z-index: 45;
+      border-radius: var(--radius-pill);
+      padding: 0.32rem;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.25rem;
+    }
+    @media (min-width: 820px) {
+      .mobile-dock { display: none; }
+    }
+    .mobile-dock a {
+      min-height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--navy);
+      border-radius: var(--radius-pill);
+      transition: background 160ms;
+    }
+    .mobile-dock a.active-tab {
+      background: var(--teal);
+      color: #FFFFFF;
+      box-shadow: 0 4px 12px rgba(13, 115, 119, 0.28);
+    }
+
+    /* Orden móvil-primero: Simulador inmediatamente arriba del todo en móvil */
+    main {
+      padding-top: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    @media (min-width: 768px) {
+      main { padding-top: 1.45rem; gap: 2.25rem; }
+    }
+    .hero-section { order: 2; }
+    .simulator-section { order: 1; }
+    .definitions-section { order: 3; }
+    .video-section { order: 4; }
+    .exercises-section { order: 5; }
+    .actuarial-section { order: 6; }
+    .biblio-section { order: 7; }
+
+    @media (min-width: 768px) {
+      .hero-section { order: 1; }
+      .simulator-section { order: 2; }
+    }
+
+    /* Hero compacto */
+    .hero-card {
+      padding: 1.25rem;
+      display: grid;
+      gap: 1.15rem;
+      align-items: center;
+    }
+    @media (min-width: 768px) {
+      .hero-card {
+        padding: 1.65rem 1.85rem;
+        grid-template-columns: 7fr 5fr;
+        gap: 1.5rem;
+      }
+    }
+    .pill-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.28rem 0.78rem;
+      border-radius: var(--radius-pill);
+      background: var(--teal-soft);
+      border: 1px solid #99E2DC;
+      color: var(--teal);
+      font-size: 0.74rem;
+      font-weight: 800;
+    }
+    .hero-title {
+      margin: 0.5rem 0 0.45rem;
+      font-size: clamp(1.32rem, 2.5vw, 1.88rem);
+      line-height: 1.18;
+      font-weight: 850;
+      color: var(--navy);
+      letter-spacing: -0.02em;
+    }
+    .hero-lead {
+      margin: 0;
+      color: var(--ink-muted);
+      font-size: 0.93rem;
+    }
+    .hero-formula-box {
+      border-radius: 18px;
+      background: var(--navy);
+      color: #FFFFFF;
+      padding: 1.05rem 1.15rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+    .hero-formula-kicker {
+      margin: 0;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #5EEAD4;
+      font-weight: 800;
+    }
+    .hero-formula-chips {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.45rem;
+    }
+    .hero-chip {
+      padding: 0.24rem 0.65rem;
+      border-radius: var(--radius-pill);
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      font-size: 0.78rem;
+      color: #F8FAFC;
+    }
+    .hero-exact-note {
+      margin: 0;
+      font-size: 0.76rem;
+      color: #CCFBF1;
+      text-align: center;
+    }
+
+    /* Simulador: Dock Liquid Glass + Superficie de resultados opaca */
+    .simulator-stack { display: flex; flex-direction: column; gap: 1rem; }
+    .sim-controls {
+      border-radius: 26px;
+      padding: 1.05rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.95rem;
+    }
+    @media (min-width: 640px) {
+      .sim-controls { padding: 1.35rem 1.5rem; gap: 1.15rem; }
+    }
+    .sim-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.65rem;
+    }
+    .sim-title {
+      margin: 0;
+      font-size: clamp(1.06rem, 2.2vw, 1.34rem);
+      font-weight: 850;
+      color: var(--navy);
+    }
+    .sim-subtitle {
+      margin: 0.15rem 0 0;
+      font-size: 0.82rem;
+      color: #334155;
+    }
+    .btn-primary {
+      min-height: 44px;
+      padding: 0.55rem 1.05rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      background: linear-gradient(135deg, #0D7377, #0A5B60);
+      color: #FFFFFF;
+      font-size: 0.82rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(13, 115, 119, 0.25);
+      transition: transform 150ms var(--ease-spring), filter 150ms;
+    }
+    .btn-primary:hover { filter: brightness(1.07); }
+    .btn-primary:active { transform: scale(0.98); }
+
+    .controls-grid {
+      display: grid;
+      gap: 0.85rem;
+    }
+    @media (min-width: 768px) {
+      .controls-grid { grid-template-columns: 1fr 1fr; gap: 1.05rem; }
+    }
+    .control-well {
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95), 0 2px 10px rgba(11, 37, 69, 0.05);
+      border-radius: 18px;
+      padding: 0.85rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    body.solid-mode .control-well { background: #FFFFFF; border-color: #CBD5E1; }
+
+    .control-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+    .control-label {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: var(--navy);
+    }
+    .value-pill {
+      padding: 0.22rem 0.78rem;
+      border-radius: var(--radius-pill);
+      font-size: 0.84rem;
+      font-weight: 850;
+      color: #FFFFFF;
+      font-variant-numeric: tabular-nums;
+    }
+    .value-pill.navy { background: var(--navy); }
+    .value-pill.amber { background: var(--amber); }
+
+    input[type="range"] {
+      width: 100%;
+      height: 36px;
+      margin: 0;
+      cursor: pointer;
+      accent-color: var(--teal);
+    }
+    input[type="range"].amber-range { accent-color: var(--amber); }
+
+    .preset-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.38rem;
+    }
+    .preset-btn {
+      min-height: 36px;
+      padding: 0.32rem 0.68rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid #CBD5E1;
+      background: #F1F5F9;
+      color: var(--navy);
+      font-size: 0.76rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: background 140ms, border-color 140ms, transform 120ms;
+    }
+    .preset-btn:hover { background: #E2E8F0; }
+    .preset-btn.highlight-teal {
+      background: var(--teal-soft);
+      border-color: #5EEAD4;
+      color: var(--teal);
+    }
+    .preset-btn.highlight-amber {
+      background: var(--amber-soft);
+      border-color: #F6C36B;
+      color: #8C5508;
+    }
+    .preset-btn.is-active {
+      background: var(--navy);
+      border-color: var(--navy);
+      color: #FFFFFF;
+    }
+
+    /* Superficie opaca de resultados y gráficos */
+    .sim-output {
+      padding: 1.05rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.05rem;
+    }
+    @media (min-width: 640px) {
+      .sim-output { padding: 1.45rem; gap: 1.25rem; }
+    }
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.7rem;
+    }
+    @media (min-width: 960px) {
+      .kpi-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.85rem; }
+    }
+    .kpi-card {
+      border-radius: 16px;
+      padding: 0.82rem 0.92rem;
+      border: 1px solid var(--line);
+      background: var(--surface-subtle);
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .kpi-card.coral { background: var(--coral-soft); border-color: #FECACA; }
+    .kpi-card.amber { background: var(--amber-soft); border-color: #FDE68A; }
+    .kpi-card.teal { background: var(--teal-soft); border-color: #99F6E4; }
+
+    .kpi-label {
+      margin: 0;
+      font-size: 0.74rem;
+      font-weight: 800;
+      color: #334155;
+    }
+    .kpi-card.coral .kpi-label { color: #991B1B; }
+    .kpi-card.amber .kpi-label { color: #78350F; }
+    .kpi-card.teal .kpi-label { color: #0F5C5F; }
+
+    .kpi-value {
+      margin: 0;
+      font-size: clamp(0.95rem, 1.5vw, 1.12rem);
+      font-weight: 850;
+      color: var(--navy);
+      font-variant-numeric: tabular-nums;
+      word-break: break-word;
+    }
+    .kpi-card.coral .kpi-value { color: var(--coral); }
+    .kpi-card.amber .kpi-value { color: #92400E; }
+    .kpi-card.teal .kpi-value { color: var(--teal); }
+
+    .kpi-sub {
+      margin: 0;
+      font-size: 0.72rem;
+      color: var(--ink-muted);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .status-strip {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.65rem;
+      border-radius: 16px;
+      background: var(--navy-deep);
+      color: #F8FAFC;
+      padding: 0.88rem 1.05rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.79rem;
+      line-height: 1.58;
+      overflow-x: auto;
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 0.22rem 0.65rem;
+      border-radius: var(--radius-pill);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 0.74rem;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+    .status-badge.ok { background: #065F46; color: #D1FAE5; border: 1px solid #34D399; }
+    .status-badge.warn { background: #7F1D1D; color: #FEE2E2; border: 1px solid #F87171; }
+    .status-badge.info { background: #1E3A5F; color: #BAE6FD; border: 1px solid #38BDF8; }
+
+    .charts-grid {
+      display: grid;
+      gap: 1.15rem;
+    }
+    @media (min-width: 960px) {
+      .charts-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .chart-block { display: flex; flex-direction: column; gap: 0.48rem; }
+    .chart-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.4rem;
+    }
+    .chart-head h3 {
+      margin: 0;
+      font-size: 0.90rem;
+      font-weight: 850;
+      color: var(--navy);
+    }
+    .chart-tag {
+      font-size: 0.71rem;
+      font-weight: 800;
+      padding: 0.18rem 0.62rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid;
+    }
+    .chart-tag.coral { background: var(--coral-soft); color: var(--coral); border-color: #FECACA; }
+    .chart-tag.amber { background: var(--amber-soft); color: #92400E; border-color: #FDE68A; }
+
+    .chart-frame {
+      position: relative;
+      height: 300px;
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 0.5rem;
+    }
+
+    /* Secciones de contenido */
+    .section-head { padding-inline: 0.2rem; }
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(1.18rem, 2.2vw, 1.52rem);
+      font-weight: 850;
+      color: var(--navy);
+    }
+    .section-head p {
+      margin: 0.3rem 0 0;
+      font-size: 0.90rem;
+      color: var(--ink-muted);
+    }
+
+    .defs-grid {
+      margin-top: 0.85rem;
+      display: grid;
+      gap: 0.95rem;
+    }
+    @media (min-width: 768px) {
+      .defs-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .def-card {
+      padding: 1.15rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.72rem;
+    }
+    .def-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+    .def-top h3 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 850;
+      color: var(--navy);
+    }
+    .tag-chip {
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 0.18rem 0.62rem;
+      border-radius: var(--radius-pill);
+      white-space: nowrap;
+    }
+    .tag-chip.teal { background: var(--teal-soft); color: var(--teal); border: 1px solid #99F6E4; }
+    .tag-chip.amber { background: var(--amber-soft); color: #92400E; border: 1px solid #FDE68A; }
+
+    .formula-box {
+      background: var(--surface-subtle);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 0.78rem 0.9rem;
+      text-align: center;
+      overflow-x: auto;
+    }
+    .formula-cond {
+      display: block;
+      margin-top: 0.25rem;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 0.80rem;
+      font-style: italic;
+      color: #334155;
+    }
+    .def-card p { margin: 0; font-size: 0.88rem; color: #334155; }
+
+    /* Video section */
+    .video-card {
+      padding: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.95rem;
+    }
+    @media (min-width: 640px) { .video-card { padding: 1.5rem; } }
+    .video-frame {
+      width: 100%;
+      max-width: 920px;
+      margin-inline: auto;
+      aspect-ratio: 16 / 9;
+      border-radius: 18px;
+      overflow: hidden;
+      background: #061322;
+      border: 1px solid #94A3B8;
+      box-shadow: 0 12px 28px rgba(11, 37, 69, 0.16);
+    }
+    .video-frame video {
+      width: 100%;
+      height: 100%;
+      display: block;
+      background: #061322;
+    }
+    .video-meta {
+      margin: 0;
+      text-align: center;
+      font-size: 0.80rem;
+      color: var(--ink-muted);
+    }
+
+    /* Ejercicios desplegables */
+    .ex-list {
+      margin-top: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+    details.ex-card { overflow: hidden; }
+    details.ex-card > summary {
+      list-style: none;
+      cursor: pointer;
+      min-height: 58px;
+      padding: 1rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.85rem;
+      transition: background 150ms;
+    }
+    details.ex-card > summary::-webkit-details-marker { display: none; }
+    details.ex-card > summary:hover { background: var(--surface-subtle); }
+    .ex-kicker {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 850;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .ex-kicker.teal { color: var(--teal); }
+    .ex-kicker.amber { color: var(--amber); }
+    .ex-kicker.navy { color: var(--navy); }
+    .ex-title {
+      margin: 0.18rem 0 0;
+      font-size: clamp(0.96rem, 1.7vw, 1.10rem);
+      font-weight: 850;
+      color: var(--navy);
+    }
+    .chevron {
+      color: #64748B;
+      font-size: 1rem;
+      flex-shrink: 0;
+      transition: transform 200ms var(--ease-spring);
+    }
+    details[open] .chevron { transform: rotate(180deg); }
+
+    .ex-body {
+      padding: 0.85rem 1.25rem 1.25rem;
+      border-top: 1px solid #E2E8F0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      font-size: 0.90rem;
+      color: #1E293B;
+    }
+    .ex-body p { margin: 0; }
+    .callout {
+      border-radius: 14px;
+      padding: 0.85rem 1rem;
+      border: 1px solid;
+      color: var(--navy);
+    }
+    .callout.teal { background: var(--teal-soft); border-color: #99F6E4; }
+    .callout.amber { background: var(--amber-soft); border-color: #FDE68A; }
+    .callout.slate { background: #F1F5F9; border-color: #CBD5E1; }
+
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.86rem;
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .compare-table th, .compare-table td {
+      padding: 0.62rem 0.78rem;
+      text-align: left;
+      border-bottom: 1px solid #E2E8F0;
+    }
+    .compare-table th {
+      background: var(--navy);
+      color: #FFFFFF;
+      font-weight: 800;
+      font-size: 0.79rem;
+    }
+    .compare-table tr:last-child td { border-bottom: none; }
+    .num-strong {
+      font-weight: 850;
+      color: var(--navy);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .quick-try-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-top: 0.35rem;
+    }
+
+    /* Actuarial & Bibliografía */
+    .actuarial-card, .biblio-card {
+      padding: 1.25rem 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .biblio-card h2, .actuarial-card h2 {
+      margin: 0;
+      font-size: 1.18rem;
+      font-weight: 850;
+      color: var(--navy);
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #E2E8F0;
+    }
+    .biblio-list {
+      margin: 0;
+      padding-left: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      font-size: 0.88rem;
+      color: #334155;
+    }
+
+    .site-footer {
+      max-width: 1152px;
+      margin: 1.75rem auto 0;
+      padding-inline: 1rem;
+      text-align: center;
+      font-size: 0.78rem;
+      color: #475569;
+    }
+
+    /* Tipografía matemática nativa instantánea */
+    .math {
+      font-family: "Cambria Math", "STIX Two Math", "Times New Roman", Georgia, serif;
+      font-size: 1.05em;
+      white-space: nowrap;
+    }
+    .math-block {
+      font-family: "Cambria Math", "STIX Two Math", "Times New Roman", Georgia, serif;
+      font-size: 1.08rem;
+      line-height: 1.8;
+    }
+    .xbar {
+      display: inline-block;
+      border-top: 1.45px solid currentColor;
+      line-height: 0.92;
+      padding-top: 1px;
+    }
+    .frac {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      vertical-align: middle;
+      margin: 0 3px;
+      font-size: 0.88em;
+      line-height: 1.1;
+    }
+    .frac .num { border-bottom: 1.2px solid currentColor; padding: 0 4px 1px; }
+    .frac .den { padding: 1px 4px 0; }
+    .conv {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      vertical-align: middle;
+      margin: 0 4px;
+      line-height: 0.86;
+    }
+    .conv .mode { font-size: 0.68em; font-weight: 700; margin-bottom: -2px; }
+    .lim-stack {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      vertical-align: middle;
+      margin-right: 4px;
+      line-height: 0.95;
+    }
+    .lim-stack .sub { font-size: 0.68em; }
+  </style>
+</head>
+<body>
+
+  <!-- Barra de navegación flotante Liquid Glass -->
+  <header class="site-header">
+    <div class="nav-shell liquid-glass">
+      <div class="brand">
+        <p class="brand-kicker">UCV · FACES · EECA · Probabilidad II</p>
+        <h1 class="brand-title">Sucesiones y Convergencia</h1>
+      </div>
+
+      <nav aria-label="Navegación principal" class="desktop-nav">
+        <a href="#simulador">Simulador</a>
+        <a href="#definiciones">Definiciones</a>
+        <a href="#video">Video</a>
+        <a href="#ejercicios">Ejercicios</a>
+        <a href="#bibliografia">Fuentes</a>
+      </nav>
+
+      <button id="toggleSolidBtn" type="button" aria-pressed="false" class="btn-solid-toggle">
+        Paneles opacos
+      </button>
+    </div>
+  </header>
+
+  <!-- Navegación inferior móvil estilo Apple Liquid Glass Tab Bar -->
+  <nav aria-label="Navegación móvil" class="mobile-dock liquid-glass">
+    <a href="#simulador" class="active-tab">Simulador</a>
+    <a href="#definiciones">Teoría</a>
+    <a href="#video">Video</a>
+    <a href="#ejercicios">Ejercicios</a>
+  </nav>
+
+  <main class="container">
+
+    <!-- ENCABEZADO COMPACTO -->
+    <section class="hero-section content-surface hero-card">
+      <div>
+        <span class="pill-badge">Tema 5 · Notación Oficial de la Cátedra (Ramírez y Vásquez, 2005)</span>
+        <h2 class="hero-title">Sucesiones de Variables Aleatorias y Convergencia</h2>
+        <p class="hero-lead">
+          Modelo central de siniestros diarios normales i.i.d. <span class="math">X<sub>i</sub> ∼ N(μ = 50, σ<sup>2</sup> = 100)</span>.
+          Con observaciones normales i.i.d., la media muestral <span class="math"><span class="xbar">X</span><sub>n</sub></span> tiene
+          <strong>distribución normal exacta para todo <span class="math">n ≥ 1</span></strong>. Ajusta <span class="math">n</span> y
+          <span class="math">ε</span> para observar la contracción real de la densidad con escala fija hasta <span class="math">1,0</span>.
+        </p>
+      </div>
+      <div class="hero-formula-box">
+        <p class="hero-formula-kicker">Modelo Central Unificado</p>
+        <div class="math-block" style="text-align:center;">
+          <span class="xbar">X</span><sub>n</sub> =
+          <span class="frac"><span class="num">1</span><span class="den">n</span></span>∑X<sub>i</sub>
+          ∼ N(50, <span class="frac"><span class="num">100</span><span class="den">n</span></span>)
+        </div>
+        <div class="hero-formula-chips">
+          <span class="hero-chip math">{<span class="xbar">X</span><sub>n</sub>}<span class="conv"><span class="mode">P</span><span>→</span></span>50</span>
+          <span class="hero-chip math">Z<sub>n</sub> = <span class="frac"><span class="num"><span class="xbar">X</span><sub>n</sub> − 50</span><span class="den">10/√n</span></span> ∼ N(0, 1)</span>
+        </div>
+        <p class="hero-exact-note">Normal exacta para todo n · Escala vertical fija [0; 1,0]</p>
+      </div>
+    </section>
+
+    <!-- SIMULADOR INTERACTIVO (Prioridad en móvil) -->
+    <section id="simulador" class="simulator-section simulator-stack" aria-label="Simulador interactivo de convergencia">
+      <!-- Controles sobre material Liquid Glass -->
+      <div class="liquid-glass sim-controls">
+        <div class="sim-header">
+          <div>
+            <h2 class="sim-title">Simulador Interactivo: {<span class="math"><span class="xbar">X</span><sub>n</sub></span>} →<sup>P</sup> 50</h2>
+            <p class="sim-subtitle">
+              Escala vertical fija en <strong>[0; 1,0]</strong> hasta <span class="math">n = 500</span> (densidad máxima <span class="math">≈ 0,892</span>) con los dos bordes exactos <span class="math">50 − ε</span> y <span class="math">50 + ε</span>.
+            </p>
+          </div>
+          <button id="btnResim" type="button" class="btn-primary">
+            Nueva muestra (5 trayectorias)
+          </button>
+        </div>
+
+        <div class="controls-grid">
+          <!-- Control n -->
+          <div class="control-well">
+            <div class="control-top">
+              <label for="sliderN" class="control-label">Tamaño muestral (<span class="math">n</span>)</label>
+              <span id="valN" class="value-pill navy">n = 97</span>
+            </div>
+            <input id="sliderN" type="range" min="1" max="500" step="1" value="97" aria-label="Tamaño muestral n" />
+            <div class="preset-row">
+              <button type="button" data-n="1" class="preset-btn preset-n">n = 1</button>
+              <button type="button" data-n="25" class="preset-btn preset-n">n = 25</button>
+              <button type="button" data-n="96" class="preset-btn preset-n">n = 96</button>
+              <button type="button" data-n="97" class="preset-btn preset-n highlight-teal">n = 97 (mín. normal)</button>
+              <button type="button" data-n="100" class="preset-btn preset-n">n = 100</button>
+              <button type="button" data-n="400" class="preset-btn preset-n">n = 400</button>
+              <button type="button" data-n="500" class="preset-btn preset-n highlight-amber">n = 500 (Tchebycheff)</button>
+            </div>
+          </div>
+
+          <!-- Control epsilon -->
+          <div class="control-well">
+            <div class="control-top">
+              <label for="sliderEps" class="control-label">Tolerancia (<span class="math">ε</span> en USD)</label>
+              <span id="valEps" class="value-pill amber">ε = 2,0</span>
+            </div>
+            <input id="sliderEps" type="range" min="0.5" max="10" step="0.5" value="2" class="amber-range" aria-label="Tolerancia épsilon" />
+            <div class="preset-row">
+              <button type="button" data-eps="0.5" class="preset-btn preset-eps">ε = 0,5</button>
+              <button type="button" data-eps="1" class="preset-btn preset-eps">ε = 1,0</button>
+              <button type="button" data-eps="2" class="preset-btn preset-eps highlight-amber">ε = 2,0</button>
+              <button type="button" data-eps="3" class="preset-btn preset-eps">ε = 3,0</button>
+              <button type="button" data-eps="5" class="preset-btn preset-eps">ε = 5,0</button>
+              <button type="button" data-eps="10" class="preset-btn preset-eps">ε = 10,0</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Resultados y gráficos sobre superficie OPACA de alto contraste -->
+      <div class="content-surface sim-output">
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <p class="kpi-label">Varianza / Desv. estándar</p>
+            <p id="kpiVar" class="kpi-value">—</p>
+            <p id="kpiPeak" class="kpi-sub">—</p>
+          </div>
+          <div class="kpi-card coral">
+            <p class="kpi-label">Prob. exacta fuera (≥ ε)</p>
+            <p id="kpiOutExact" class="kpi-value">—</p>
+            <p id="kpiOutPct" class="kpi-sub">—</p>
+          </div>
+          <div class="kpi-card amber">
+            <p class="kpi-label">Cota efectiva Tchebycheff</p>
+            <p id="kpiCheb" class="kpi-value">—</p>
+            <p id="kpiChebExpr" class="kpi-sub">—</p>
+          </div>
+          <div class="kpi-card teal">
+            <p class="kpi-label">Prob. exacta dentro (&lt; ε)</p>
+            <p id="kpiInExact" class="kpi-value">—</p>
+            <p id="kpiInPct" class="kpi-sub">—</p>
+          </div>
+        </div>
+
+        <div class="status-strip" aria-live="polite">
+          <div id="liveFormula"></div>
+          <span id="targetBadge" class="status-badge info"></span>
+        </div>
+
+        <div class="charts-grid">
+          <div class="chart-block">
+            <div class="chart-head">
+              <h3>Densidad de <span class="math"><span class="xbar">X</span><sub>n</sub> ∼ N(50, 100/n)</span> (escala fija [0; 1,0])</h3>
+              <span id="densityTag" class="chart-tag coral">Bordes: 48,0 y 52,0 USD</span>
+            </div>
+            <div class="chart-frame">
+              <canvas id="densityChart" aria-label="Gráfico de densidad teórica de la media muestral con escala fija hasta 1,0"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-block">
+            <div class="chart-head">
+              <h3>Muestra de 5 trayectorias (términos finitos 1…n)</h3>
+              <span id="pathTag" class="chart-tag amber">Banda: 50 ± 2,0</span>
+            </div>
+            <div class="chart-frame">
+              <canvas id="pathChart" aria-label="Gráfico de 5 trayectorias de medias muestrales"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DEFINICIONES DEL CURSO -->
+    <section id="definiciones" class="definitions-section">
+      <div class="section-head">
+        <h2>Definiciones Formales y Jerarquía del Curso</h2>
+        <p>
+          Sobre <span class="math">(Ω, ℱ, P)</span>, una sucesión <span class="math">{X<sub>n</sub>}</span> asigna a cada <span class="math">n ∈ ℕ</span> una variable aleatoria con función de distribución <span class="math">F<sub>n</sub>(x) = P[X<sub>n</sub> ≤ x]</span>.
+        </p>
+      </div>
+
+      <div class="defs-grid">
+        <article class="content-surface def-card">
+          <div class="def-top">
+            <h3>Convergencia en Probabilidad</h3>
+            <span class="tag-chip teal">Eje Tema 5</span>
+          </div>
+          <div class="formula-box math-block">
+            {X<sub>n</sub>}<span class="conv"><span class="mode">P</span><span>→</span></span>X &nbsp;⇔&nbsp;
+            <span class="lim-stack"><span>lím</span><span class="sub">n→∞</span></span>P[|X<sub>n</sub> − X| ≥ ε] = 0
+            <span class="formula-cond">para todo ε &gt; 0</span>
+          </div>
+          <p><strong>Def. 5.1.2 (Ramírez y Vásquez, p. 153):</strong> Si <span class="math">X = X<sub>c</sub> = c</span> (constante degenerada), se denomina <strong>convergencia estocástica</strong>.</p>
+        </article>
+
+        <article class="content-surface def-card">
+          <div class="def-top">
+            <h3>Convergencia en Distribución</h3>
+            <span class="tag-chip teal">Eje Tema 5</span>
+          </div>
+          <div class="formula-box math-block">
+            {X<sub>n</sub>}<span class="conv"><span class="mode">F</span><span>→</span></span>X &nbsp;⇔&nbsp;
+            <span class="lim-stack"><span>lím</span><span class="sub">n→∞</span></span>F<sub>n</sub>(x) = F<sub>X</sub>(x)
+            <span class="formula-cond">en todo punto de continuidad x de F<sub>X</sub></span>
+          </div>
+          <p><strong>Def. 5.1.1 (p. 153):</strong> La igualdad límite se exige en todos los puntos de continuidad de la función de distribución límite <span class="math">F<sub>X</sub></span>. Por el <strong>Teor. 5.1.1</strong>, hacia una constante <span class="math">X<sub>c</sub> = c</span> equivale a <span class="math">→<sup>P</sup></span>.</p>
+        </article>
+
+        <article class="content-surface def-card">
+          <div class="def-top">
+            <h3>Convergencia en Media Cuadrática (L<sup>2</sup>)</h3>
+            <span class="tag-chip amber">Rincón, Cap. 7</span>
+          </div>
+          <div class="formula-box math-block">
+            {X<sub>n</sub>}<span class="conv"><span class="mode">L²</span><span>→</span></span>X &nbsp;⇔&nbsp;
+            <span class="lim-stack"><span>lím</span><span class="sub">n→∞</span></span>E[|X<sub>n</sub> − X|<sup>2</sup>] = 0
+          </div>
+          <p><strong>Rincón (2010, p. 294):</strong> Exige segundos momentos finitos. En el ejemplo central, <span class="math">E[(<span class="xbar">X</span><sub>n</sub> − 50)<sup>2</sup>] = 100/n → 0</span>.</p>
+        </article>
+
+        <article class="content-surface def-card">
+          <div class="def-top">
+            <h3>Convergencia Casi Segura (c.s.)</h3>
+            <span class="tag-chip amber">Rincón, Cap. 7</span>
+          </div>
+          <div class="formula-box math-block">
+            {X<sub>n</sub>}<span class="conv"><span class="mode">c.s.</span><span>→</span></span>X &nbsp;⇔&nbsp;
+            P[<span class="lim-stack"><span>lím</span><span class="sub">n→∞</span></span>X<sub>n</sub> = X] = 1
+          </div>
+          <p><strong>Rincón (2010, p. 290):</strong> Jerarquía de implicaciones: <span class="math">(c.s. ó L<sup>2</sup>) ⇒ →<sup>P</sup> ⇒ →<sup>F</sup></span> (Fig. 7.5, p. 298).</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- VIDEO MOTION GRAPHICS CON LOCUCIÓN Y SUBTÍTULOS -->
+    <section id="video" class="video-section content-surface video-card">
+      <div class="section-head" style="padding:0;">
+        <h2>Video con Locución en Español y Motion Graphics (16:9 · Escala Fija [0; 1,0])</h2>
+        <p>
+          Narración en español sincronizada con las fórmulas, trayectorias, barrido completo de densidades hasta <span class="math">n = 500</span> (pico <span class="math">≈ 0,892</span>), Moivre–Laplace y consistencia de <span class="math">S<sub>n</sub><sup>2</sup></span>.
+        </p>
+      </div>
+      <div class="video-frame">
+        <video id="courseVideo" controls preload="metadata" playsinline crossorigin="anonymous">
+          <source src="./Video_Convergencia_Probabilidad_II_UCV.mp4" type="video/mp4" />
+          <track id="esTrack" kind="subtitles" srclang="es" label="Español" src="./Video_Convergencia_Subtitulos_ES.vtt" default />
+          Tu navegador no soporta video HTML5.
+        </video>
+      </div>
+      <p class="video-meta">
+        Pista de audio en español (AAC 44,1 kHz) y subtítulos sincronizados WebVTT alojados en el mismo origen HTTPS (sin errores 404).
+      </p>
+    </section>
+
+    <!-- EJERCICIOS COMPLETOS DESPLEGABLES -->
+    <section id="ejercicios" class="exercises-section">
+      <div class="section-head">
+        <h2>Ejercicios Resueltos Completos (Desarrollo Extendido)</h2>
+        <p>Despliega cada ejercicio para revisar hipótesis, pasos algebraicos, redondeos verificados y justificación rigurosa.</p>
+      </div>
+
+      <div class="ex-list">
+        <!-- Ejercicio 1 -->
+        <details class="content-surface ex-card" open>
+          <summary>
+            <div>
+              <span class="ex-kicker teal">Ejercicio 1 · Convergencia en Probabilidad (Teor. 5.1.2)</span>
+              <h3 class="ex-title">Cota suficiente de Tchebycheff (n ≥ 500) vs. mínimo bajo el modelo normal (n = 97)</h3>
+            </div>
+            <span class="chevron" aria-hidden="true">▼</span>
+          </summary>
+          <div class="ex-body">
+            <p>
+              <strong>Planteamiento:</strong> Sean <span class="math">X<sub>1</sub>, …, X<sub>n</sub> ∼ N(50, 100)</span> independientes e idénticamente distribuidas (<span class="math">μ = 50</span>, <span class="math">σ = 10</span>).
+              Con observaciones normales i.i.d., <span class="math"><span class="xbar">X</span><sub>n</sub> ∼ N(50, 100/n)</span> es <strong>exactamente normal para todo <span class="math">n ≥ 1</span></strong>.
+              Se busca garantizar <span class="math">P[|<span class="xbar">X</span><sub>n</sub> − 50| &lt; 2] ≥ 0,95</span>.
+            </p>
+            <div class="formula-box math-block">
+              (a) Cota de Tchebycheff (sin asumir normalidad): &nbsp;
+              1 − <span class="frac"><span class="num">100</span><span class="den">4n</span></span> ≥ 0,95
+              &nbsp;⇒&nbsp; <span class="frac"><span class="num">25</span><span class="den">n</span></span> ≤ 0,05
+              &nbsp;⇒&nbsp; <strong>n ≥ 500</strong>
+            </div>
+            <div class="formula-box math-block">
+              (b) Modelo normal exacto: &nbsp;
+              2Φ(0,2√n) − 1 ≥ 0,95
+              &nbsp;⇒&nbsp; 0,2√n ≥ z<sub>0,975</sub> ≈ 1,959964
+              &nbsp;⇒&nbsp; n ≥ 96,0365
+              &nbsp;⇒&nbsp; <strong>n = 97</strong>
+            </div>
+            <div class="callout teal">
+              <strong>Interpretación exacta:</strong>
+              Mediante la cota de Tchebycheff, <strong><span class="math">n ≥ 500</span> garantiza el objetivo</strong> (condición suficiente válida para cualquier distribución con varianza <span class="math">100</span>).
+              En cambio, <strong><span class="math">n = 97</span> es el mínimo exacto bajo el modelo normal</strong> del ejercicio:
+              con <span class="math">n = 96</span> se obtiene <span class="math">P[|<span class="xbar">X</span><sub>96</sub> − 50| &lt; 2] ≈ 0,94995648 &lt; 0,95</span> (no cumple), mientras que con <span class="math">n = 97</span> se alcanza <span class="math">≈ 0,95113544 ≥ 0,95</span> (cumple).
+              <div class="quick-try-row">
+                <button type="button" class="preset-btn quick-sim" data-n="96" data-eps="2">Probar n = 96, ε = 2</button>
+                <button type="button" class="preset-btn highlight-teal quick-sim" data-n="97" data-eps="2">Probar n = 97, ε = 2</button>
+                <button type="button" class="preset-btn highlight-amber quick-sim" data-n="500" data-eps="2">Probar n = 500, ε = 2</button>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <!-- Ejercicio 2 -->
+        <details class="content-surface ex-card">
+          <summary>
+            <div>
+              <span class="ex-kicker amber">Ejercicio 2 · Convergencia en Distribución (Teor. 5.2.4)</span>
+              <h3 class="ex-title">Teorema de Moivre–Laplace para X ∼ b(10; 0,5) con corrección por continuidad</h3>
+            </div>
+            <span class="chevron" aria-hidden="true">▼</span>
+          </summary>
+          <div class="ex-body">
+            <p>
+              <strong>Enunciado (Ramírez y Vásquez, pp. 159–160):</strong> Sea <span class="math">X</span> el número de caras en <span class="math">10</span> lanzamientos independientes de una moneda justa,
+              <span class="math">X ∼ b(10; 0,5)</span> con función de masa <span class="math">P<sub>X</sub>(x) = C(10, x)(0,5)<sup>10</sup>·I<sub>{0,…,10}</sub>(x)</span>.
+              Aquí <span class="math">μ = np = 5</span> y <span class="math">σ<sup>2</sup> = npq = 2,5</span> (<span class="math">σ = √2,5 ≈ 1,581139</span>).
+              Se desea calcular <span class="math">P(3 ≤ X ≤ 5)</span> y comparar el valor exacto con la aproximación normal con corrección por continuidad <span class="math">[2,5; 5,5]</span>.
+            </p>
+            <div class="formula-box math-block">
+              Exacta binomial: &nbsp; P(3 ≤ X ≤ 5) =
+              <span class="frac"><span class="num">C(10,3) + C(10,4) + C(10,5)</span><span class="den">2<sup>10</sup></span></span>
+              = <span class="frac"><span class="num">120 + 210 + 252</span><span class="den">1024</span></span>
+              = <span class="frac"><span class="num">582</span><span class="den">1024</span></span>
+              = 0,568359375 ≈ <strong>0,56836</strong>
+            </div>
+            <div class="formula-box math-block">
+              Estandarización con corrección por continuidad: &nbsp;
+              z<sub>1</sub> = <span class="frac"><span class="num">2,5 − 5</span><span class="den">√2,5</span></span> = −√2,5 ≈ −1,581139, &nbsp;&nbsp;
+              z<sub>2</sub> = <span class="frac"><span class="num">5,5 − 5</span><span class="den">√2,5</span></span> = <span class="frac"><span class="num">1</span><span class="den">√10</span></span> ≈ 0,316228
+            </div>
+
+            <div style="overflow-x:auto;">
+              <table class="compare-table" aria-label="Comparación de resultados en Moivre-Laplace">
+                <thead>
+                  <tr>
+                    <th>Método de cálculo</th>
+                    <th>Expresión</th>
+                    <th>Resultado</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Valor binomial exacto redondeado</strong> (5 dec.)</td>
+                    <td><span class="math">582 / 1024 = 0,568359375</span></td>
+                    <td class="num-strong">≈ 0,56836</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Aproximación con la tabla del curso</strong> (2 dec., p. 159)</td>
+                    <td><span class="math">Φ(0,32) − Φ(−1,58) ≈ 0,6255 − 0,05705</span></td>
+                    <td class="num-strong">≈ 0,56845</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Aproximación normal con corrección por continuidad sin redondear <span class="math">z</span></strong></td>
+                    <td><span class="math">Φ(1/√10) − Φ(−√2,5) ≈ 0,624085 − 0,056923</span></td>
+                    <td class="num-strong">≈ 0,56716</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="callout amber">
+              <strong>Distinción clave:</strong> <span class="math">0,56836</span> es el valor binomial exacto redondeado; <span class="math">0,56845</span> proviene de redondear previamente los valores estandarizados a 2 decimales para leer la tabla normal del curso; y <span class="math">0,56716</span> es la aproximación normal con corrección por continuidad evaluada sin redondear <span class="math">z<sub>1</sub></span> ni <span class="math">z<sub>2</sub></span>.
+            </div>
+          </div>
+        </details>
+
+        <!-- Ejercicio 3 -->
+        <details class="content-surface ex-card">
+          <summary>
+            <div>
+              <span class="ex-kicker navy">Ejercicio 3 · Consistencia de la Varianza Muestral (Teor. 5.1.3)</span>
+              <h3 class="ex-title">Demostración de {S<sub>n</sub><sup>2</sup>} →<sup>P</sup> σ<sup>2</sup> para cualquier ε &gt; 0</h3>
+            </div>
+            <span class="chevron" aria-hidden="true">▼</span>
+          </summary>
+          <div class="ex-body">
+            <p>
+              <strong>Hipótesis (Ramírez y Vásquez, p. 155):</strong> Sean <span class="math">X<sub>1</sub>, …, X<sub>n</sub> ∼ N(μ, σ<sup>2</sup>)</span> i.i.d. (en nuestro ejemplo <span class="math">μ = 50</span>, <span class="math">σ<sup>2</sup> = 100</span>).
+              Para todo <span class="math">n ≥ 2</span>, la variable <span class="math">Y = (n − 1)S<sub>n</sub><sup>2</sup>/σ<sup>2</sup> ∼ χ<sup>2</sup>(n − 1)</span>, de donde se obtienen los momentos exactos:
+              <span class="math">E[S<sub>n</sub><sup>2</sup>] = σ<sup>2</sup></span> (estimador insesgado) y <span class="math">Var(S<sub>n</sub><sup>2</sup>) = 2σ<sup>4</sup>/(n − 1)</span>.
+            </p>
+            <div class="formula-box math-block">
+              Para <strong>cualquier ε &gt; 0</strong> fijo y todo n ≥ 2 (por Tchebycheff): &nbsp;
+              0 ≤ P[|S<sub>n</sub><sup>2</sup> − σ<sup>2</sup>| ≥ ε]
+              ≤ mín(1;&nbsp; <span class="frac"><span class="num">2σ<sup>4</sup></span><span class="den">(n − 1)ε<sup>2</sup></span></span>)
+              ≤ <span class="frac"><span class="num">2σ<sup>4</sup></span><span class="den">(n − 1)ε<sup>2</sup></span></span>
+            </div>
+            <div class="formula-box math-block">
+              Como σ<sup>2</sup> y ε &gt; 0 son constantes fijas respecto a n: &nbsp;
+              <span class="lim-stack"><span>lím</span><span class="sub">n→∞</span></span>
+              <span class="frac"><span class="num">2σ<sup>4</sup></span><span class="den">(n − 1)ε<sup>2</sup></span></span> = 0
+              &nbsp;⇒&nbsp;
+              <span class="lim-stack"><span>lím</span><span class="sub">n→∞</span></span>P[|S<sub>n</sub><sup>2</sup> − σ<sup>2</sup>| ≥ ε] = 0 &nbsp;∀ ε &gt; 0
+            </div>
+            <p>
+              <strong>Ilustración numérica</strong> (<span class="math">σ<sup>2</sup> = 100</span>, <span class="math">ε = 15</span>, <span class="math">n = 1001</span>):
+              <span class="math">P[|S<sub>1001</sub><sup>2</sup> − 100| ≥ 15] ≤ mín(1;\; 2(100)<sup>2</sup>/(1000·15<sup>2</sup>)) = 20.000/225.000 = 4/45 ≈ 0,0889</span>.
+            </p>
+            <div class="callout slate">
+              <strong>Conclusión rigurosa:</strong> Por el teorema del emparedado, el límite de <span class="math">P[|S<sub>n</sub><sup>2</sup> − σ<sup>2</sup>| ≥ ε]</span> es <span class="math">0</span> para <strong>cualquier <span class="math">ε &gt; 0</span></strong> (no solo para un valor particular como <span class="math">ε = 15</span>). Por la Def. 5.1.2 y el Teor. 5.1.3, queda probado que <span class="math">{S<sub>n</sub><sup>2</sup>} →<sup>P</sup> σ<sup>2</sup></span> (consistencia estocástica).
+            </div>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- EJEMPLO ACTUARIAL BREVE -->
+    <section class="actuarial-section content-surface actuarial-card">
+      <h2>Aplicación Actuarial Breve: Estabilidad de la Media de Cartera</h2>
+      <p style="margin:0; font-size:0.90rem; color:#334155;">
+        En una cartera de <span class="math">n</span> pólizas con siniestros diarios independientes e idénticamente distribuidos <span class="math">X<sub>i</sub> ∼ N(50, 100)</span>,
+        el siniestro medio por póliza <span class="math"><span class="xbar">X</span><sub>n</sub></span> tiene media constante <span class="math">μ = 50</span> USD y varianza <span class="math">Var(<span class="xbar">X</span><sub>n</sub>) = 100/n</span>.
+        Bajo estos supuestos del modelo, <strong>al aumentar <span class="math">n</span> disminuye la variabilidad de la media</strong>: la probabilidad de desviarse <span class="math">2</span> USD o más respecto a la prima pura baja de
+        <span class="math">≈ 31,73%</span> con <span class="math">n = 25</span> a <span class="math">≈ 0,0063%</span> (<span class="math">≈ 6,33 × 10<sup>−5</sup></span>) con <span class="math">n = 400</span> y a <span class="math">≈ 7,74 × 10<sup>−6</sup></span> con <span class="math">n = 500</span>.
+        Además, como las observaciones individuales son normales i.i.d., la distribución de <span class="math"><span class="xbar">X</span><sub>n</sub></span> es <strong>normal exacta para todo <span class="math">n</span></strong>.
+      </p>
+    </section>
+
+    <!-- BIBLIOGRAFÍA -->
+    <section id="bibliografia" class="biblio-section content-surface biblio-card">
+      <h2>Referencias Bibliográficas Consultadas</h2>
+      <ul class="biblio-list">
+        <li><strong>Ramírez, G., &amp; Vásquez, M. (2005).</strong> <em>Teoría de la Probabilidad II: «Convergencia de Variables Aleatorias»</em> (Tema 5, pp. 152–161; Defs. 5.1.1–5.1.2, Teors. 5.1.1–5.2.6). EECA-FACES, Universidad Central de Venezuela.</li>
+        <li><strong>Rincón, L. (2010).</strong> <em>Curso intermedio de probabilidad</em> (Cap. 7: «Convergencia», pp. 287–303; Cap. 9, Secc. 9.2: «Ley de los grandes números», p. 352). Facultad de Ciencias, UNAM.</li>
+        <li><strong>Bolívar, J. (2026).</strong> <em>Investigación: Sucesiones de variables aleatorias y convergencia. Instrucciones y rúbrica de evaluación.</em> Teoría de la Probabilidad II (I-2026), EECA-UCV.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Teoría de la Probabilidad II · Escuela de Estadística y Ciencias Actuariales · UCV · Sitio académico público sin datos personales ni archivos privados.</p>
+  </footer>
+
+  <script>
+    const MU = 50.0, SIGMA = 10.0, SIGMA2 = 100.0;
+    const Y_MAX_FIXED = 1.0;
+    const X_MIN = 25.0, X_MAX = 75.0;
+    const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let solidMode = false;
+
+    /**
+     * Función de error complementaria erfc(x) de doble precisión (algoritmo racional de W. J. Cody, 1969).
+     * Precisión relativa ~1e-15 en todo el rango real sin cancelación catastrófica para colas extremas.
+     */
+    function erfcStable(x) {
+      if (!Number.isFinite(x)) return x > 0 ? 0.0 : 2.0;
+      if (x < 0) return 2.0 - erfcStable(-x);
+      if (x === 0) return 1.0;
+
+      const THRESH = 0.46875;
+      const a = [
+        3.16112374387056560e00, 1.13864154151050156e02,
+        3.77485237685302021e02, 3.20937758913846947e03,
+        1.85777706184603153e-1
+      ];
+      const b = [
+        2.36012909523441209e01, 2.44024637934444173e02,
+        1.28261652607737228e03, 2.84423683343917062e03
+      ];
+      const c = [
+        5.64188496988670089e-1, 8.88314979438837594e00,
+        6.61191906371416295e01, 2.98635138197400131e02,
+        8.81952221241769090e02, 1.71204761263407058e03,
+        2.05107837782607147e03, 1.23033935479799725e03,
+        2.15311535474403846e-8
+      ];
+      const d = [
+        1.57449261107098347e01, 1.17693950891312499e02,
+        5.37181101862009858e02, 1.62138957456669019e03,
+        3.29079923573345963e03, 4.36261909014324716e03,
+        3.43936767414372164e03, 1.23033935480374942e03
+      ];
+      const p = [
+        3.05326634961232344e-1, 3.60344899949804439e-1,
+        1.25781726111229246e-1, 1.60837851487422766e-2,
+        6.58749161529837803e-4, 1.63153871373020978e-2
+      ];
+      const q = [
+        2.56852019228982242e00, 1.87295284992346047e00,
+        5.27905102951428412e-1, 6.05183413124413191e-2,
+        2.33520497626869185e-3
+      ];
+
+      if (x <= THRESH) {
+        const ysq = x * x;
+        let xnum = a[4] * ysq;
+        let xden = ysq;
+        for (let i = 0; i < 3; i++) {
+          xnum = (xnum + a[i]) * ysq;
+          xden = (xden + b[i]) * ysq;
+        }
+        const erfVal = x * (xnum + a[3]) / (xden + b[3]);
+        return 1.0 - erfVal;
+      }
+
+      if (x <= 4.0) {
+        let xnum = c[8] * x;
+        let xden = x;
+        for (let i = 0; i < 7; i++) {
+          xnum = (xnum + c[i]) * x;
+          xden = (xden + d[i]) * x;
+        }
+        let res = (xnum + c[7]) / (xden + d[7]);
+        const ysq = Math.floor(x * 16.0) / 16.0;
+        const del = (x - ysq) * (x + ysq);
+        return Math.exp(-ysq * ysq) * Math.exp(-del) * res;
+      }
+
+      if (x >= 26.543) {
+        return 0.0; // bajo umbral IEEE-754 (< 1e-308)
+      }
+
+      const ysq = 1.0 / (x * x);
+      let xnum = p[5] * ysq;
+      let xden = ysq;
+      for (let i = 0; i < 4; i++) {
+        xnum = (xnum + p[i]) * ysq;
+        xden = (xden + q[i]) * ysq;
+      }
+      const res = (ysq * (xnum + p[4]) / (xden + q[4]));
+      const invSqrtPi = 0.56418958354775628695;
+      const factor = (invSqrtPi - res) / x;
+      const xHi = Math.floor(x * 16.0) / 16.0;
+      const del = (x - xHi) * (x + xHi);
+      return Math.exp(-xHi * xHi) * Math.exp(-del) * factor;
+    }
+
+    /** Probabilidad bilateral normal exacta P(|Z| >= z) = 2*(1 - Phi(z)) = erfc(z / sqrt(2)) */
+    function normalTwoSidedTail(z) {
+      return erfcStable(Math.abs(z) / Math.SQRT2);
+    }
+
+    function normalPDF(x, mu, sd) {
+      const z = (x - mu) / sd;
+      return Math.exp(-0.5 * z * z) / (sd * Math.sqrt(2.0 * Math.PI));
+    }
+
+    function randNorm() {
+      let u = 0, v = 0;
+      while (u === 0) u = Math.random();
+      while (v === 0) v = Math.random();
+      return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+    }
+
+    const SUP_DIGITS = { '-': '⁻', '0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴', '5': '⁵', '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹' };
+    function toSup(intVal) {
+      return String(intVal).split('').map(ch => SUP_DIGITS[ch] || ch).join('');
+    }
+
+    function fmtES(num, dec = 4) {
+      return num.toFixed(dec).replace('.', ',');
+    }
+
+    function fmtSciES(val, sigDec = 2) {
+      if (val <= 0 || val < 1e-300) return '< 10⁻³⁰⁰';
+      const exp = Math.floor(Math.log10(val));
+      const mant = val / Math.pow(10, exp);
+      return `≈ ${fmtES(mant, sigDec)} × 10${toSup(exp)}`;
+    }
+
+    function fmtTailProb(p, dec = 6) {
+      if (p < 1e-300) return '< 10⁻³⁰⁰';
+      if (p < 1e-4) return fmtSciES(p, 2);
+      return `≈ ${fmtES(p, dec)}`;
+    }
+
+    function fmtTailPct(p) {
+      const pct = p * 100.0;
+      if (p < 1e-300) return '< 10⁻²⁹⁸ %';
+      if (pct < 0.0001) return `${fmtSciES(pct, 2)} %`;
+      if (pct < 0.01) return `≈ ${fmtES(pct, 4)} %`;
+      return `≈ ${fmtES(pct, 2)} %`;
+    }
+
+    function fmtInsideProb(pOut) {
+      if (pOut < 1e-12) return '> 0,999999999999';
+      if (pOut < 1e-8) return `≈ 1 − ${fmtSciES(pOut, 2).replace(/^≈\s*/, '')}`;
+      return `≈ ${fmtES(1.0 - pOut, 8)}`;
+    }
+
+    function fmtInsidePct(pOut) {
+      if (pOut < 1e-8) return '> 99,999999 %';
+      if (pOut < 1e-4) return `≈ ${fmtES((1.0 - pOut) * 100.0, 5)} %`;
+      return `≈ ${fmtES((1.0 - pOut) * 100.0, 4)} %`;
+    }
+
+    function isExactTerminating(n, eps) {
+      const val = SIGMA2 / (n * eps * eps);
+      return Math.abs(val * 10000 - Math.round(val * 10000)) < 1e-9;
+    }
+
+    // Muestras deterministas reproducibles con opción de regeneración
+    let samplePaths = [];
+    function generateSamplePaths() {
+      samplePaths = [];
+      for (let k = 0; k < 5; k++) {
+        let sum = 0;
+        const arr = [];
+        for (let i = 1; i <= 500; i++) {
+          sum += MU + SIGMA * randNorm();
+          arr.push(sum / i);
+        }
+        samplePaths.push(arr);
+      }
+    }
+    generateSamplePaths();
+
+    // Plugin Chart.js para dibujar explícitamente ambos bordes del intervalo [50 - ε, 50 + ε] y μ = 50
+    let currentEps = 2.0;
+    let currentPeak = 0.0;
+    let currentN = 97;
+
+    const toleranceBordersPlugin = {
+      id: 'toleranceBordersPlugin',
+      afterDatasetsDraw(chart) {
+        const { ctx, chartArea, scales } = chart;
+        if (!chartArea || !scales.x || !scales.y) return;
+        const xScale = scales.x;
+        const yScale = scales.y;
+        const lo = MU - currentEps;
+        const hi = MU + currentEps;
+        const xLo = xScale.getPixelForValue(lo);
+        const xHi = xScale.getPixelForValue(hi);
+        const xMu = xScale.getPixelForValue(MU);
+
+        ctx.save();
+        // Sombreado sutil de la banda de tolerancia de piso a techo
+        ctx.fillStyle = 'rgba(180, 117, 27, 0.07)';
+        ctx.fillRect(xLo, chartArea.top, xHi - xLo, chartArea.bottom - chartArea.top);
+
+        // Dos bordes verticales explícitos: 50 - ε y 50 + ε
+        ctx.strokeStyle = '#B4751B';
+        ctx.lineWidth = 1.8;
+        ctx.setLineDash([6, 4]);
+        [xLo, xHi].forEach(px => {
+          ctx.beginPath();
+          ctx.moveTo(px, chartArea.top);
+          ctx.lineTo(px, chartArea.bottom);
+          ctx.stroke();
+        });
+
+        // Línea central μ = 50
+        ctx.strokeStyle = 'rgba(11, 37, 69, 0.35)';
+        ctx.lineWidth = 1.1;
+        ctx.setLineDash([2, 3]);
+        ctx.beginPath();
+        ctx.moveTo(xMu, chartArea.top);
+        ctx.lineTo(xMu, chartArea.bottom);
+        ctx.stroke();
+
+        // Etiquetas legibles de ambos bordes
+        ctx.setLineDash([]);
+        ctx.font = '700 10.5px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+        ctx.fillStyle = '#8C5508';
+        const yLbl = chartArea.top + 13;
+        ctx.textAlign = 'right';
+        ctx.fillText(fmtES(lo, 1), xLo - 4, yLbl);
+        ctx.textAlign = 'left';
+        ctx.fillText(fmtES(hi, 1), xHi + 4, yLbl);
+
+        // Marcador del máximo de densidad en n >= 400 para confirmar visualmente < 1,0
+        if (currentN >= 400) {
+          const yPeak = yScale.getPixelForValue(currentPeak);
+          ctx.fillStyle = '#0B2545';
+          ctx.beginPath();
+          ctx.arc(xMu, yPeak, 3.5, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.textAlign = 'left';
+          ctx.fillText(`máx. ≈ ${fmtES(currentPeak, 3)}`, xMu + 7, Math.max(chartArea.top + 26, yPeak + 4));
+        }
+        ctx.restore();
+      }
+    };
+
+    const animDur = () => (reducedMotionQuery.matches || solidMode ? 0 : 120);
+
+    const densityChart = new Chart(document.getElementById('densityChart').getContext('2d'), {
+      type: 'line',
+      data: { datasets: [] },
+      plugins: [toleranceBordersPlugin],
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        parsing: false,
+        animation: { duration: animDur() },
+        interaction: { mode: 'nearest', axis: 'x', intersect: false },
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: { boxWidth: 12, font: { size: 11, weight: '600' }, color: '#0F172A' }
+          },
+          tooltip: {
+            callbacks: {
+              title: items => items.length ? `x = ${fmtES(items[0].parsed.x, 2)} USD` : '',
+              label: ctx => `${ctx.dataset.label}: ${fmtES(ctx.parsed.y, 4)}`
+            }
+          }
+        },
+        scales: {
+          x: {
+            type: 'linear',
+            min: X_MIN,
+            max: X_MAX,
+            title: { display: true, text: 'x (USD) — escala fija [25; 75]', color: '#0B2545', font: { weight: '700', size: 11 } },
+            ticks: { stepSize: 5, color: '#334155' },
+            grid: { color: '#E2E8F0' }
+          },
+          y: {
+            min: 0,
+            max: Y_MAX_FIXED,
+            title: { display: true, text: 'Densidad f(x) — máx. fijo 1,0', color: '#0B2545', font: { weight: '700', size: 11 } },
+            ticks: { stepSize: 0.2, color: '#334155', callback: v => fmtES(Number(v), 1) },
+            grid: { color: '#E2E8F0' }
+          }
+        }
+      }
+    });
+
+    const pathChart = new Chart(document.getElementById('pathChart').getContext('2d'), {
+      type: 'line',
+      data: { datasets: [] },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        parsing: false,
+        animation: { duration: animDur() },
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: { boxWidth: 12, font: { size: 11, weight: '600' }, color: '#0F172A' }
+          }
+        },
+        scales: {
+          x: {
+            type: 'linear',
+            min: 1,
+            title: { display: true, text: 'Índice n (términos finitos)', color: '#0B2545', font: { weight: '700', size: 11 } },
+            ticks: { maxTicksLimit: 8, color: '#334155' },
+            grid: { color: '#E2E8F0' }
+          },
+          y: {
+            min: 34,
+            max: 66,
+            title: { display: true, text: 'Media muestral (USD)', color: '#0B2545', font: { weight: '700', size: 11 } },
+            ticks: { color: '#334155' },
+            grid: { color: '#E2E8F0' }
+          }
+        }
+      }
+    });
+
+    function buildDenseXGrid(eps) {
+      const pts = new Set();
+      // Malla global
+      for (let i = 0; i <= 200; i++) {
+        pts.add(Number((X_MIN + (X_MAX - X_MIN) * (i / 200)).toFixed(6)));
+      }
+      // Refinamiento de alta resolución cerca de μ = 50 para que n = 500 sea perfectamente suave
+      for (let i = -80; i <= 80; i++) {
+        const x = MU + i * 0.05;
+        if (x >= X_MIN && x <= X_MAX) pts.add(Number(x.toFixed(6)));
+      }
+      // Inclusión EXPLÍCITA de ambos bordes exactos y del centro
+      pts.add(MU - eps);
+      pts.add(MU);
+      pts.add(MU + eps);
+      return Array.from(pts).sort((a, b) => a - b);
+    }
+
+    function syncActivePresetButtons(n, eps) {
+      document.querySelectorAll('.preset-n').forEach(btn => {
+        btn.classList.toggle('is-active', Number(btn.dataset.n) === n);
+      });
+      document.querySelectorAll('.preset-eps').forEach(btn => {
+        btn.classList.toggle('is-active', Math.abs(Number(btn.dataset.eps) - eps) < 1e-9);
+      });
+    }
+
+    function updateSimulator() {
+      const n = parseInt(document.getElementById('sliderN').value, 10);
+      const eps = parseFloat(document.getElementById('sliderEps').value);
+      currentN = n;
+      currentEps = eps;
+
+      const variance = SIGMA2 / n;
+      const sd = SIGMA / Math.sqrt(n);
+      const z = eps / sd;
+      const pOutExact = normalTwoSidedTail(z);
+      const pInExact = 1.0 - pOutExact;
+      const chebRaw = SIGMA2 / (n * eps * eps);
+      const chebEff = Math.min(1.0, chebRaw);
+      const peak = normalPDF(MU, MU, sd);
+      currentPeak = peak;
+
+      syncActivePresetButtons(n, eps);
+
+      document.getElementById('valN').textContent = `n = ${n}`;
+      document.getElementById('valEps').textContent = `ε = ${fmtES(eps, 1)}`;
+      document.getElementById('densityTag').textContent = `Bordes: ${fmtES(MU - eps, 1)} y ${fmtES(MU + eps, 1)} USD`;
+      document.getElementById('pathTag').textContent = `Banda: 50 ± ${fmtES(eps, 1)}`;
+
+      const varEq = isExactTerminating(n, 1) ? `= ${fmtES(variance, 2)}` : `≈ ${fmtES(variance, 3)}`;
+      document.getElementById('kpiVar').textContent = `Var ${varEq} · σ/√n ≈ ${fmtES(sd, 3)}`;
+      document.getElementById('kpiPeak').textContent = `Densidad máx. en x = 50: ≈ ${fmtES(peak, 3)} (límite eje: 1,0)`;
+
+      document.getElementById('kpiOutExact').textContent = fmtTailProb(pOutExact, 6);
+      document.getElementById('kpiOutPct').textContent = fmtTailPct(pOutExact);
+
+      const chebExactFlag = isExactTerminating(n, eps);
+      const chebValStr = chebEff === 1.0 ? '= 1' : (chebExactFlag ? `= ${fmtES(chebEff, 4)}` : `≈ ${fmtES(chebEff, 4)}`);
+      const chebRawStr = chebExactFlag ? fmtES(chebRaw, 4) : `≈ ${fmtES(chebRaw, 4)}`;
+      document.getElementById('kpiCheb').textContent = chebEff === 1.0
+        ? '≤ 1'
+        : (chebExactFlag ? `≤ ${fmtES(chebEff, 4)}` : `≤ ${fmtES(chebEff, 4)} (aprox.)`);
+      document.getElementById('kpiChebExpr').textContent = `mín(1; 100/(${n}·${fmtES(eps, 1)}²)) = mín(1; ${chebRawStr}) ${chebValStr}`;
+
+      document.getElementById('kpiInExact').textContent = fmtInsideProb(pOutExact);
+      document.getElementById('kpiInPct').textContent = fmtInsidePct(pOutExact);
+
+      const zStr = Math.abs(z * 100 - Math.round(z * 100)) < 1e-9 ? `= ${fmtES(z, 2)}` : `≈ ${fmtES(z, 4)}`;
+      const chebFormulaTail = chebEff === 1.0
+        ? `mín(1; ${chebRawStr}) = 1`
+        : `mín(1; ${chebRawStr}) ${chebValStr}`;
+
+      document.getElementById('liveFormula').textContent =
+        `Exacta (erfc): P[|X̄_${n} − 50| ≥ ${fmtES(eps, 1)}] = erfc(z/√2) con z ${zStr} → ${fmtTailProb(pOutExact, 6)}  |  ` +
+        `Dentro (< ε): ${fmtInsideProb(pOutExact)}  |  ` +
+        `Tchebycheff: ≤ mín(1; 100/(${n}·${fmtES(eps, 1)}²)) = ${chebFormulaTail}`;
+
+      const badge = document.getElementById('targetBadge');
+      if (Math.abs(eps - 2.0) < 1e-9) {
+        if (n >= 500) {
+          badge.className = 'status-badge ok';
+          badge.textContent = 'n ≥ 500: objetivo ≥ 0,95 garantizado por Tchebycheff y por Normal';
+        } else if (n >= 97) {
+          badge.className = 'status-badge ok';
+          badge.textContent = n === 97 ? 'n = 97: mínimo exacto bajo el modelo normal (≥ 0,95)' : 'Cumple ≥ 0,95 bajo el modelo normal';
+        } else {
+          badge.className = 'status-badge warn';
+          badge.textContent = n === 96 ? 'n = 96: ≈ 0,94995648 < 0,95 (aún no alcanza)' : 'Aún por debajo de 0,95 (Normal)';
+        }
+      } else {
+        badge.className = pInExact >= 0.95 ? 'status-badge ok' : 'status-badge info';
+        badge.textContent = pInExact >= 0.95 ? 'Dentro del intervalo ≥ 95%' : `Dentro del intervalo ${fmtInsidePct(pOutExact)}`;
+      }
+
+      // Densidad con escala fija y ambos bordes incluidos exactamente
+      const xs = buildDenseXGrid(eps);
+      const lo = MU - eps;
+      const hi = MU + eps;
+      const refPts = [];
+      const insidePts = [];
+      const leftOutPts = [];
+      const rightOutPts = [];
+
+      for (const x of xs) {
+        const y = normalPDF(x, MU, sd);
+        refPts.push({ x, y: normalPDF(x, MU, SIGMA) });
+        if (x >= lo - 1e-9 && x <= hi + 1e-9) insidePts.push({ x, y });
+        if (x <= lo + 1e-9) leftOutPts.push({ x, y });
+        if (x >= hi - 1e-9) rightOutPts.push({ x, y });
+      }
+
+      densityChart.options.animation.duration = animDur();
+      densityChart.data.datasets = [
+        {
+          label: 'Ref. n = 1',
+          data: refPts,
+          borderColor: '#94A3B8',
+          borderDash: [4, 4],
+          borderWidth: 1.4,
+          pointRadius: 0
+        },
+        {
+          label: `Dentro [${fmtES(lo, 1)}; ${fmtES(hi, 1)}]`,
+          data: insidePts,
+          borderColor: '#0D7377',
+          backgroundColor: 'rgba(13, 115, 119, 0.24)',
+          fill: 'origin',
+          pointRadius: 0,
+          borderWidth: 2.3
+        },
+        {
+          label: `Colas fuera (|x − 50| ≥ ${fmtES(eps, 1)})`,
+          data: leftOutPts,
+          borderColor: '#C81E1E',
+          backgroundColor: 'rgba(200, 30, 30, 0.36)',
+          fill: 'origin',
+          pointRadius: 0,
+          borderWidth: 2.1
+        },
+        {
+          label: 'Cola derecha',
+          data: rightOutPts,
+          borderColor: '#C81E1E',
+          backgroundColor: 'rgba(200, 30, 30, 0.36)',
+          fill: 'origin',
+          pointRadius: 0,
+          borderWidth: 2.1,
+          // Ocultamos duplicado en leyenda mediante filtro below
+        }
+      ];
+      densityChart.options.plugins.legend.labels.filter = item => item.text !== 'Cola derecha';
+      densityChart.update();
+
+      // Trayectorias finitas 1..n
+      const stride = Math.max(1, Math.floor(n / 120));
+      const indices = [];
+      for (let i = 1; i <= n; i += stride) indices.push(i);
+      if (indices[indices.length - 1] !== n) indices.push(n);
+
+      const palette = ['#0D7377', '#2563EB', '#64748B', '#7C3AED', '#0284C7'];
+      const pDatasets = samplePaths.map((arr, idx) => ({
+        label: idx === 0 ? 'Trayectoria 1' : `Tray. ${idx + 1}`,
+        data: indices.map(i => ({ x: i, y: arr[i - 1] })),
+        borderColor: palette[idx],
+        borderWidth: idx === 0 ? 2.4 : 1.25,
+        pointRadius: 0,
+        tension: 0.08
+      }));
+      pDatasets.push(
+        {
+          label: `50 + ε (${fmtES(hi, 1)})`,
+          data: [{ x: 1, y: hi }, { x: Math.max(2, n), y: hi }],
+          borderColor: '#B4751B',
+          borderDash: [6, 4],
+          borderWidth: 1.6,
+          pointRadius: 0
+        },
+        {
+          label: `50 − ε (${fmtES(lo, 1)})`,
+          data: [{ x: 1, y: lo }, { x: Math.max(2, n), y: lo }],
+          borderColor: '#B4751B',
+          borderDash: [6, 4],
+          borderWidth: 1.6,
+          pointRadius: 0
+        }
+      );
+      pathChart.options.animation.duration = animDur();
+      pathChart.options.scales.x.max = Math.max(2, n);
+      pathChart.data.datasets = pDatasets;
+      pathChart.update();
+    }
+
+    document.getElementById('sliderN').addEventListener('input', updateSimulator);
+    document.getElementById('sliderEps').addEventListener('input', updateSimulator);
+
+    document.querySelectorAll('.preset-n').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.getElementById('sliderN').value = btn.dataset.n;
+        updateSimulator();
+      });
+    });
+    document.querySelectorAll('.preset-eps').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.getElementById('sliderEps').value = btn.dataset.eps;
+        updateSimulator();
+      });
+    });
+    document.querySelectorAll('.quick-sim').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.getElementById('sliderN').value = btn.dataset.n;
+        document.getElementById('sliderEps').value = btn.dataset.eps;
+        updateSimulator();
+        document.getElementById('simulador').scrollIntoView({ behavior: reducedMotionQuery.matches || solidMode ? 'auto' : 'smooth' });
+      });
+    });
+
+    document.getElementById('btnResim').addEventListener('click', () => {
+      generateSamplePaths();
+      updateSimulator();
+    });
+
+    const toggleSolidBtn = document.getElementById('toggleSolidBtn');
+    toggleSolidBtn.addEventListener('click', () => {
+      solidMode = !solidMode;
+      document.body.classList.toggle('solid-mode', solidMode);
+      toggleSolidBtn.setAttribute('aria-pressed', String(solidMode));
+      toggleSolidBtn.textContent = solidMode ? 'Modo Liquid Glass' : 'Paneles opacos';
+      updateSimulator();
+    });
+
+    // Sincronizar pestaña activa del dock móvil al pulsar
+    document.querySelectorAll('.mobile-dock a').forEach(link => {
+      link.addEventListener('click', () => {
+        document.querySelectorAll('.mobile-dock a').forEach(a => a.classList.remove('active-tab'));
+        link.classList.add('active-tab');
+      });
+    });
+
+    // Respaldo de subtítulos WebVTT inline sincronizados (si se abre localmente sin servidor)
+    const EMBEDDED_VTT = `WEBVTT
+
+1
+00:00:00.350 --> 00:00:08.687
+Una sucesión {Xₙ} indexa variables aleatorias en (Ω, ℱ, P), cada una con distribución Fₙ(x).
+
+2
+00:00:09.037 --> 00:00:20.117
+Con siniestros normales i.i.d. Xᵢ ∼ N(50, 100), la media muestral X̄ₙ ∼ N(50, 100/n) es normal exacta para todo n.
+
+3
+00:00:20.917 --> 00:00:28.573
+Al fijar ω₁ ∈ Ω observamos una trayectoria {X̄ₙ(ω₁)} sobre términos finitos.
+
+4
+00:00:28.923 --> 00:00:38.117
+Al superponer 15 trayectorias, su dispersión disminuye y casi todas entran en |x − 50| < 2.
+
+5
+00:00:38.917 --> 00:00:49.722
+Convergencia en probabilidad (Def. 5.1.2): lím P[|X̄ₙ − 50| ≥ ε] = 0 para todo ε > 0.
+
+6
+00:00:50.072 --> 00:00:58.536
+Con escala vertical fija hasta 1,0, al crecer n la densidad se concentra entre los bordes 48 y 52.
+
+7
+00:00:58.886 --> 00:01:13.648
+Bajo el modelo normal, n = 97 es el mínimo: n = 96 da ≈ 0,94995648 (< 0,95) y n = 97 da ≈ 0,95113544.
+
+8
+00:01:13.998 --> 00:01:27.242
+Con la cota de Tchebycheff mín(1; 100/(4n)), n ≥ 500 garantiza el objetivo sin asumir normalidad (pico ≈ 0,892).
+
+9
+00:01:28.242 --> 00:01:39.418
+Def. 5.1.1: {Xₙ} →ᶠ X si lím Fₙ(x) = F_X(x) en todo punto de continuidad de F_X (Teor. 5.1.1 si X = c).
+
+10
+00:01:39.768 --> 00:01:58.519
+Moivre–Laplace en b(10; 0,5): 0,56836 exacto redondeado; 0,56845 con tabla del curso; 0,56716 sin redondear z.
+
+11
+00:01:59.419 --> 00:02:14.079
+Al crecer n disminuye la variabilidad de X̄ₙ (Var = 100/n): en n = 400 el riesgo fuera de ±2 baja a ≈ 0,0063%.
+
+12
+00:02:14.429 --> 00:02:24.150
+Consistencia (Teor. 5.1.3): para todo ε > 0, P[|Sₙ² − σ²| ≥ ε] ≤ 2σ⁴/((n−1)ε²) → 0 ⇒ {Sₙ²} →ᴾ σ².
+
+13
+00:02:24.950 --> 00:02:35.557
+Jerarquía: (c.s. ó L²) ⇒ en probabilidad (→ᴾ) ⇒ en distribución (→ᶠ). Ramírez y Vásquez (2005); Rincón (2010).`;
+
+    const esTrack = document.getElementById('esTrack');
+    esTrack.addEventListener('error', () => {
+      try {
+        const blob = new Blob([EMBEDDED_VTT], { type: 'text/vtt' });
+        esTrack.src = URL.createObjectURL(blob);
+      } catch (e) {}
+    });
+
+    window.addEventListener('DOMContentLoaded', updateSimulator);
+  </script>
+</body>
+</html>
