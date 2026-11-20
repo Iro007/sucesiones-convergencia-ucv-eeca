@@ -5,53 +5,73 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Simulador interactivo, definiciones formales, video 30fps con locución y ejercicios resueltos de Sucesiones de Variables Aleatorias y Convergencia — Teoría de la Probabilidad II (UCV · EECA)." />
   <title>Sucesiones de Variables Aleatorias y Convergencia — Probabilidad II (UCV · EECA)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <script src="./assets/chart.umd.min.js"></script>
   <style>
     :root {
-      --navy: #0A1D37;
-      --navy-soft: #173050;
-      --teal: #0D7377;
-      --teal-ink: #0B5D60;
-      --amber: #A66A14;
-      --coral: #B91C1C;
-      --ink: #0F172A;
-      --ink-secondary: #334155;
-      --ink-muted: #64748B;
-      --hairline: rgba(15, 23, 42, 0.10);
-      --hairline-strong: rgba(15, 23, 42, 0.18);
-      --canvas: #F8FAFC;
+      /* Paleta institucional oficial EECA–UCV (8_EECAUCV-WEB) */
+      --navy: #163b68;
+      --navy-dark: #122f51;
+      --navy-deep: #102c4e;
+      --navy-light: #2d5685;
+      --crimson: #9f2536;
+      --crimson-dark: #7b1c2b;
+      --crimson-light: #bb4151;
+      --crimson-rose: #ed5461;
+      --crimson-bg: #faedef;
+      --crimson-border: #e3c5cb;
+      --emerald: #287463;
+      --emerald-bg: #edf6f2;
+      --cyan: #326d90;
+      --ochre: #996830;
+      --plum: #72456b;
 
-      /* Apple Liquid Glass Material Tokens (exclusivamente navegación, controles y cápsulas interactivas) */
-      --glass-fill: linear-gradient(145deg, rgba(255, 255, 255, 0.72) 0%, rgba(244, 248, 253, 0.46) 100%);
-      --glass-fill-subtle: linear-gradient(145deg, rgba(255, 255, 255, 0.64) 0%, rgba(248, 250, 252, 0.38) 100%);
-      --glass-edge: rgba(255, 255, 255, 0.88);
-      --glass-stroke: rgba(10, 29, 55, 0.09);
+      --paper: #f7f5f2;
+      --canvas: #ffffff;
+      --bg-sec: #f7f8fa;
+      --bg-tert: #edf1f5;
+      --ink: #162c43;
+      --ink-secondary: #526171;
+      --ink-muted: #68788b;
+      --hairline: #dfe4e9;
+      --hairline-strong: #c8d1db;
+
+      /* Apple Liquid Glass Material Tokens (exclusivamente navegación, dock móvil y controles del simulador) */
+      --glass-fill: linear-gradient(145deg, rgba(255, 255, 255, 0.78) 0%, rgba(247, 245, 242, 0.54) 100%);
+      --glass-edge: rgba(255, 255, 255, 0.92);
+      --glass-stroke: rgba(22, 59, 104, 0.11);
       --glass-shadow:
-        0 14px 36px rgba(10, 29, 55, 0.09),
-        0 2px 8px rgba(10, 29, 55, 0.04),
-        inset 0 1.5px 0 rgba(255, 255, 255, 0.96),
-        inset 0 -1px 0 rgba(10, 29, 55, 0.06);
+        0 14px 36px rgba(18, 47, 81, 0.09),
+        0 2px 8px rgba(18, 47, 81, 0.05),
+        inset 0 1.5px 0 rgba(255, 255, 255, 0.98),
+        inset 0 -1px 0 rgba(22, 59, 104, 0.06);
+
+      --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+      --font-serif: Georgia, "Times New Roman", serif;
+      --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
       --radius-pill: 999px;
       --ease-apple: cubic-bezier(0.22, 1, 0.36, 1);
+      --ease-spring: cubic-bezier(0.34, 1.45, 0.64, 1);
     }
 
     *, *::before, *::after { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
 
-    /* Lienzo editorial sobrio, luminoso y de alto contraste (sin recuadros alrededor de textos/fórmulas) */
+    /* Lienzo editorial sobrio EECA–UCV (cero recuadros encerrando textos ni fórmulas) */
     body {
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", "Segoe UI", Roboto, sans-serif;
+      font-family: var(--font-sans);
       color: var(--ink);
-      line-height: 1.65;
+      line-height: 1.68;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
-      padding-bottom: 5.5rem;
+      padding-bottom: 5.75rem;
       background:
-        radial-gradient(760px circle at 12% 3%, rgba(13, 115, 119, 0.11), transparent 52%),
-        radial-gradient(680px circle at 88% 5%, rgba(37, 99, 235, 0.10), transparent 50%),
-        radial-gradient(600px circle at 50% 24%, rgba(180, 117, 27, 0.05), transparent 55%),
-        var(--canvas);
+        radial-gradient(840px circle at 10% 0%, rgba(159, 37, 54, 0.075), transparent 52%),
+        radial-gradient(760px circle at 92% 4%, rgba(22, 59, 104, 0.085), transparent 50%),
+        linear-gradient(180deg, var(--paper) 0%, #fbfaf8 24%, var(--canvas) 54%, var(--canvas) 100%);
       background-attachment: fixed;
     }
 
@@ -59,15 +79,35 @@
       body { padding-bottom: 3.5rem; }
     }
 
+    /* Barra de progreso de lectura (filete carmesí EECA superior) */
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      z-index: 60;
+      pointer-events: none;
+      background: transparent;
+    }
+    .scroll-progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--navy) 0%, var(--crimson) 65%, var(--crimson-rose) 100%);
+      transform-origin: left center;
+      transition: width 90ms linear;
+    }
+
     /* Material Apple Liquid Glass — solo navegación y controles interactivos */
     .liquid-glass {
       position: relative;
       background: var(--glass-fill);
-      backdrop-filter: blur(28px) saturate(195%) brightness(1.03);
-      -webkit-backdrop-filter: blur(28px) saturate(195%) brightness(1.03);
+      backdrop-filter: blur(28px) saturate(190%) brightness(1.03);
+      -webkit-backdrop-filter: blur(28px) saturate(190%) brightness(1.03);
       border: 1px solid var(--glass-edge);
       outline: 1px solid var(--glass-stroke);
       box-shadow: var(--glass-shadow);
+      overflow: hidden;
     }
     .liquid-glass::before {
       content: "";
@@ -75,51 +115,129 @@
       inset: 0;
       border-radius: inherit;
       pointer-events: none;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.52) 0%, rgba(255, 255, 255, 0) 44%);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.58) 0%, rgba(255, 255, 255, 0) 46%);
+    }
+    .liquid-glass::after {
+      content: "";
+      position: absolute;
+      top: -60%;
+      left: -30%;
+      width: 45%;
+      height: 220%;
+      pointer-events: none;
+      background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.34) 50%, transparent 65%);
+      transform: translateX(-120%) skewX(-18deg);
+      transition: transform 900ms var(--ease-apple);
+    }
+    .liquid-glass:hover::after {
+      transform: translateX(360%) skewX(-18deg);
     }
     .liquid-glass > * { position: relative; z-index: 1; }
 
-    /* Accesibilidad: foco visible */
+    /* Accesibilidad: foco visible con color institucional */
     a:focus-visible,
     button:focus-visible,
     input:focus-visible,
     summary:focus-visible,
     video:focus-visible {
-      outline: 3px solid var(--teal);
+      outline: 3px solid var(--crimson);
       outline-offset: 3px;
     }
 
     /* Preferencias reducidas + botón manual "Paneles opacos" */
     @media (prefers-reduced-transparency: reduce) {
       .liquid-glass {
-        background: #FFFFFF !important;
+        background: #ffffff !important;
         backdrop-filter: none !important;
         -webkit-backdrop-filter: none !important;
-        border: 1px solid #94A3B8 !important;
+        border: 1px solid var(--hairline-strong) !important;
         outline: none !important;
       }
-      .liquid-glass::before { display: none !important; }
+      .liquid-glass::before, .liquid-glass::after { display: none !important; }
     }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       *, *::before, *::after {
         animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
       }
+      .reveal { opacity: 1 !important; transform: none !important; filter: none !important; }
     }
-    body.solid-mode { background: #FFFFFF !important; }
+    body.solid-mode { background: #ffffff !important; }
     body.solid-mode .liquid-glass {
-      background: #FFFFFF !important;
+      background: #ffffff !important;
       backdrop-filter: none !important;
       -webkit-backdrop-filter: none !important;
-      border: 1px solid #94A3B8 !important;
+      border: 1px solid var(--hairline-strong) !important;
       outline: none !important;
-      box-shadow: 0 2px 10px rgba(10, 29, 55, 0.08) !important;
+      box-shadow: 0 2px 10px rgba(18, 47, 81, 0.08) !important;
     }
-    body.solid-mode .liquid-glass::before { display: none !important; }
+    body.solid-mode .liquid-glass::before,
+    body.solid-mode .liquid-glass::after { display: none !important; }
     body.solid-mode *, body.solid-mode *::before, body.solid-mode *::after {
       transition-duration: 0.01ms !important;
       animation-duration: 0.01ms !important;
+    }
+    body.solid-mode .reveal { opacity: 1 !important; transform: none !important; filter: none !important; }
+
+    /* Animaciones editoriales al hacer scroll (sobrias, precisas, Apple easing) */
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition:
+        opacity 640ms var(--ease-apple),
+        transform 680ms var(--ease-apple);
+      will-change: opacity, transform;
+    }
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-d1 { transition-delay: 60ms; }
+    .reveal-d2 { transition-delay: 120ms; }
+    .reveal-d3 { transition-delay: 180ms; }
+    .reveal-d4 { transition-delay: 240ms; }
+
+    /* Animaciones SVG del Hero (curva trazada y pulso en la media μ = 50) */
+    @keyframes drawCurve {
+      from { stroke-dashoffset: 680; }
+      to   { stroke-dashoffset: 0; }
+    }
+    @keyframes fadeArea {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes pulseBeacon {
+      0%, 100% { transform: scale(1); opacity: 0.85; }
+      50%      { transform: scale(1.75); opacity: 0.15; }
+    }
+    @keyframes kpiPop {
+      0%   { transform: scale(1); }
+      40%  { transform: scale(1.035); }
+      100% { transform: scale(1); }
+    }
+    @keyframes detailsReveal {
+      from { opacity: 0; transform: translateY(-6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-curve-stroke {
+      stroke-dasharray: 680;
+      stroke-dashoffset: 680;
+      animation: drawCurve 1.35s var(--ease-apple) 220ms forwards;
+    }
+    .hero-curve-area {
+      opacity: 0;
+      animation: fadeArea 900ms var(--ease-apple) 750ms forwards;
+    }
+    .hero-beacon-ring {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: pulseBeacon 2.6s ease-in-out infinite;
+    }
+    .kpi-pop {
+      animation: kpiPop 260ms var(--ease-apple);
     }
 
     /* Contenedor editorial */
@@ -145,29 +263,57 @@
       max-width: 1080px;
       margin-inline: auto;
       border-radius: var(--radius-pill);
-      padding: 0.44rem 0.6rem 0.44rem 1.1rem;
+      padding: 0.44rem 0.6rem 0.44rem 1.15rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 0.75rem;
+      transition: box-shadow 260ms var(--ease-apple), transform 260ms var(--ease-apple);
     }
-    .brand { min-width: 0; }
+    .site-header.is-scrolled .nav-shell {
+      box-shadow:
+        0 18px 42px rgba(18, 47, 81, 0.13),
+        0 2px 10px rgba(18, 47, 81, 0.06),
+        inset 0 1.5px 0 rgba(255, 255, 255, 0.98);
+    }
+    .brand {
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+    .brand-mark {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--navy-dark);
+      color: #ffffff;
+      display: grid;
+      place-items: center;
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1.05rem;
+      font-weight: 700;
+      flex-shrink: 0;
+      box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.22);
+    }
+    .brand-copy { min-width: 0; }
     .brand-kicker {
       margin: 0;
-      font-size: 0.64rem;
-      letter-spacing: 0.10em;
+      font-size: 0.62rem;
+      letter-spacing: 0.11em;
       text-transform: uppercase;
       font-weight: 800;
-      color: var(--teal);
+      color: var(--crimson);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
     .brand-title {
       margin: 0;
-      font-size: 0.94rem;
+      font-size: 0.93rem;
       font-weight: 800;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.025em;
       color: var(--navy);
       white-space: nowrap;
       overflow: hidden;
@@ -180,36 +326,42 @@
     }
     @media (min-width: 820px) {
       .desktop-nav { display: flex; }
-      .brand-title { font-size: 1rem; }
+      .brand-title { font-size: 0.98rem; }
     }
     .desktop-nav a {
       text-decoration: none;
-      color: var(--navy);
-      font-size: 0.85rem;
+      color: var(--ink-secondary);
+      font-size: 0.84rem;
       font-weight: 600;
-      padding: 0.46rem 0.85rem;
+      padding: 0.44rem 0.85rem;
       border-radius: var(--radius-pill);
-      transition: background 180ms var(--ease-apple), color 180ms;
+      position: relative;
+      transition: background 200ms var(--ease-apple), color 200ms, transform 180ms var(--ease-apple);
     }
     .desktop-nav a:hover {
-      background: rgba(10, 29, 55, 0.06);
-      color: var(--teal);
+      background: rgba(159, 37, 54, 0.07);
+      color: var(--crimson);
+    }
+    .desktop-nav a.is-current {
+      background: rgba(22, 59, 104, 0.10);
+      color: var(--navy);
+      font-weight: 700;
     }
     .btn-solid-toggle {
       min-height: 38px;
-      padding: 0.42rem 0.92rem;
+      padding: 0.42rem 0.95rem;
       border-radius: var(--radius-pill);
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      background: var(--navy);
-      color: #FFFFFF;
-      font-size: 0.77rem;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      background: var(--navy-dark);
+      color: #ffffff;
+      font-size: 0.76rem;
       font-weight: 700;
       cursor: pointer;
       flex-shrink: 0;
-      transition: transform 150ms var(--ease-apple), background 150ms;
+      transition: transform 160ms var(--ease-spring), background 180ms;
     }
-    .btn-solid-toggle:hover { background: var(--navy-soft); }
-    .btn-solid-toggle:active { transform: scale(0.97); }
+    .btn-solid-toggle:hover { background: var(--crimson); transform: translateY(-1px); }
+    .btn-solid-toggle:active { transform: scale(0.96); }
 
     /* Dock móvil inferior Apple Liquid Glass */
     .mobile-dock {
@@ -235,23 +387,23 @@
       font-weight: 700;
       color: var(--navy);
       border-radius: var(--radius-pill);
-      transition: background 160ms;
+      transition: background 180ms var(--ease-apple), color 180ms, transform 150ms;
     }
     .mobile-dock a.active-tab {
-      background: var(--navy);
-      color: #FFFFFF;
-      box-shadow: 0 4px 14px rgba(10, 29, 55, 0.24);
+      background: var(--navy-dark);
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(18, 47, 81, 0.28);
     }
 
     /* Flujo vertical editorial — prioridad al simulador en móvil */
     main {
-      padding-top: 1.4rem;
+      padding-top: 1.5rem;
       display: flex;
       flex-direction: column;
-      gap: 2.8rem;
+      gap: 2.9rem;
     }
     @media (min-width: 768px) {
-      main { padding-top: 2.2rem; gap: 3.6rem; }
+      main { padding-top: 2.3rem; gap: 3.7rem; }
     }
     .simulator-section { order: 1; }
     .hero-section { order: 2; }
@@ -266,74 +418,114 @@
       .simulator-section { order: 2; }
     }
 
-    /* Separador editorial limpio */
     .section-divider {
       border-top: 1px solid var(--hairline);
       padding-top: 2.4rem;
     }
 
+    /* Eyebrow estilo 8_EECAUCV-WEB con punto carmesí */
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.48rem;
+      font-size: 0.70rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--crimson);
+      margin-bottom: 0.65rem;
+    }
+    .kicker::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--crimson);
+      flex-shrink: 0;
+    }
+
     /* Encabezado editorial abierto (cero recuadros) */
     .hero-layout {
       display: grid;
-      gap: 1.6rem;
+      gap: 1.8rem;
       align-items: end;
     }
     @media (min-width: 820px) {
       .hero-layout {
         grid-template-columns: 7fr 5fr;
-        gap: 2.5rem;
+        gap: 2.6rem;
       }
     }
-    .kicker {
-      display: inline-block;
-      font-size: 0.73rem;
-      font-weight: 800;
-      letter-spacing: 0.11em;
-      text-transform: uppercase;
-      color: var(--teal);
-      margin-bottom: 0.55rem;
-    }
     .hero-title {
-      margin: 0 0 0.75rem;
-      font-size: clamp(1.75rem, 3.6vw, 2.55rem);
-      line-height: 1.09;
-      font-weight: 850;
-      letter-spacing: -0.03em;
-      color: var(--navy);
+      margin: 0 0 0.85rem;
+      font-size: clamp(1.85rem, 3.9vw, 2.85rem);
+      line-height: 1.07;
+      font-weight: 800;
+      letter-spacing: -0.035em;
+      color: var(--navy-dark);
+    }
+    .hero-title em {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-style: italic;
+      color: var(--crimson);
     }
     .hero-lead {
       margin: 0;
       font-size: 0.98rem;
       color: var(--ink-secondary);
-      max-width: 60ch;
+      max-width: 58ch;
+    }
+    .hero-signature {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+      font-size: 0.78rem;
+      color: var(--ink-muted);
+    }
+    .signature-line {
+      width: 28px;
+      height: 1.5px;
+      background: var(--crimson);
+      flex-shrink: 0;
     }
     .hero-math-aside {
-      border-left: 2px solid var(--teal);
-      padding-left: 1.25rem;
+      border-left: 2px solid var(--crimson);
+      padding-left: 1.3rem;
       display: flex;
       flex-direction: column;
-      gap: 0.65rem;
+      gap: 0.55rem;
     }
     .hero-math-label {
       margin: 0;
-      font-size: 0.72rem;
+      font-size: 0.70rem;
       font-weight: 800;
-      letter-spacing: 0.10em;
+      letter-spacing: 0.11em;
       text-transform: uppercase;
       color: var(--ink-muted);
     }
     .hero-inline-meta {
       display: flex;
       flex-wrap: wrap;
-      gap: 1.1rem;
+      gap: 1.05rem;
       font-size: 0.88rem;
       color: var(--navy);
     }
     .hero-exact-caption {
       margin: 0;
-      font-size: 0.80rem;
-      color: var(--teal-ink);
-      font-weight: 600;
+      font-size: 0.79rem;
+      color: var(--emerald);
+      font-weight: 700;
+    }
+    /* Mini curva abierta animada (sin caja, homenaje sobrio a DataArtwork de 8_EECAUCV-WEB) */
+    .hero-mini-svg {
+      width: 100%;
+      max-width: 340px;
+      height: auto;
+      display: block;
+      margin-top: 0.25rem;
+      overflow: visible;
     }
 
     /* ============================================================== */
@@ -343,13 +535,13 @@
 
     .sim-controls {
       border-radius: 26px;
-      padding: 1.15rem 1.2rem;
+      padding: 1.2rem 1.25rem;
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 1.05rem;
     }
     @media (min-width: 640px) {
-      .sim-controls { padding: 1.4rem 1.6rem; gap: 1.15rem; }
+      .sim-controls { padding: 1.45rem 1.65rem; gap: 1.2rem; }
     }
     .sim-head {
       display: flex;
@@ -362,29 +554,50 @@
       margin: 0;
       font-size: clamp(1.12rem, 2.2vw, 1.38rem);
       font-weight: 800;
-      letter-spacing: -0.02em;
-      color: var(--navy);
+      letter-spacing: -0.025em;
+      color: var(--navy-dark);
     }
     .sim-subtitle {
-      margin: 0.18rem 0 0;
+      margin: 0.2rem 0 0;
       font-size: 0.84rem;
       color: var(--ink-secondary);
     }
+    .sim-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
+    }
     .btn-glass-action {
-      min-height: 42px;
-      padding: 0.5rem 1.05rem;
+      min-height: 40px;
+      padding: 0.48rem 1rem;
       border-radius: var(--radius-pill);
-      border: 1px solid rgba(255, 255, 255, 0.35);
-      background: var(--navy);
-      color: #FFFFFF;
-      font-size: 0.80rem;
+      border: 1px solid rgba(255, 255, 255, 0.32);
+      background: var(--navy-dark);
+      color: #ffffff;
+      font-size: 0.79rem;
       font-weight: 700;
       cursor: pointer;
-      box-shadow: 0 6px 18px rgba(10, 29, 55, 0.18);
-      transition: transform 150ms var(--ease-apple), background 150ms;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.42rem;
+      box-shadow: 0 6px 18px rgba(18, 47, 81, 0.16);
+      transition: transform 160ms var(--ease-spring), background 180ms, box-shadow 180ms;
     }
-    .btn-glass-action:hover { background: var(--teal); }
-    .btn-glass-action:active { transform: scale(0.98); }
+    .btn-glass-action:hover {
+      background: var(--navy-light);
+      transform: translateY(-1px);
+    }
+    .btn-glass-action:active { transform: scale(0.97); }
+    .btn-glass-action.crimson {
+      background: var(--crimson);
+      box-shadow: 0 6px 18px rgba(159, 37, 54, 0.22);
+    }
+    .btn-glass-action.crimson:hover { background: var(--crimson-dark); }
+    .btn-glass-action.is-playing {
+      background: var(--emerald);
+      box-shadow: 0 6px 18px rgba(40, 116, 99, 0.25);
+    }
 
     .controls-grid {
       display: grid;
@@ -393,7 +606,7 @@
     @media (min-width: 768px) {
       .controls-grid {
         grid-template-columns: 1fr 1fr;
-        gap: 1.6rem;
+        gap: 1.65rem;
       }
     }
     .control-group {
@@ -408,29 +621,31 @@
       gap: 0.5rem;
     }
     .control-label {
-      font-size: 0.86rem;
+      font-size: 0.85rem;
       font-weight: 700;
-      color: var(--navy);
+      color: var(--navy-dark);
     }
     .value-pill {
-      padding: 0.20rem 0.74rem;
+      padding: 0.20rem 0.76rem;
       border-radius: var(--radius-pill);
-      font-size: 0.82rem;
-      font-weight: 800;
-      color: #FFFFFF;
+      font-family: var(--font-mono);
+      font-size: 0.79rem;
+      font-weight: 700;
+      color: #ffffff;
       font-variant-numeric: tabular-nums;
+      transition: transform 180ms var(--ease-spring);
     }
     .value-pill.navy { background: var(--navy); }
-    .value-pill.amber { background: var(--amber); }
+    .value-pill.crimson { background: var(--crimson); }
 
     input[type="range"] {
       width: 100%;
       height: 36px;
       margin: 0;
       cursor: pointer;
-      accent-color: var(--teal);
+      accent-color: var(--navy);
     }
-    input[type="range"].amber-range { accent-color: var(--amber); }
+    input[type="range"].crimson-range { accent-color: var(--crimson); }
 
     .preset-row {
       display: flex;
@@ -441,72 +656,88 @@
       min-height: 34px;
       padding: 0.28rem 0.68rem;
       border-radius: var(--radius-pill);
-      border: 1px solid rgba(10, 29, 55, 0.12);
-      background: rgba(255, 255, 255, 0.74);
+      border: 1px solid rgba(22, 59, 104, 0.14);
+      background: rgba(255, 255, 255, 0.78);
       color: var(--navy);
-      font-size: 0.75rem;
+      font-size: 0.74rem;
       font-weight: 700;
       cursor: pointer;
-      transition: background 140ms, border-color 140ms, color 140ms;
+      transition: background 150ms, border-color 150ms, color 150ms, transform 150ms var(--ease-spring);
     }
-    .preset-btn:hover { background: #FFFFFF; border-color: rgba(10, 29, 55, 0.28); }
-    .preset-btn.highlight-teal { color: var(--teal-ink); border-color: rgba(13, 115, 119, 0.35); }
-    .preset-btn.highlight-amber { color: var(--amber); border-color: rgba(166, 106, 20, 0.38); }
-    .preset-btn.is-active {
-      background: var(--navy);
+    .preset-btn:hover {
+      background: #ffffff;
       border-color: var(--navy);
-      color: #FFFFFF;
+      transform: translateY(-1px);
+    }
+    .preset-btn:active { transform: scale(0.96); }
+    .preset-btn.highlight-emerald { color: var(--emerald); border-color: rgba(40, 116, 99, 0.38); }
+    .preset-btn.highlight-crimson { color: var(--crimson); border-color: rgba(159, 37, 54, 0.38); }
+    .preset-btn.is-active {
+      background: var(--navy-dark);
+      border-color: var(--navy-dark);
+      color: #ffffff;
+    }
+    .preset-btn.highlight-crimson.is-active {
+      background: var(--crimson);
+      border-color: var(--crimson);
+      color: #ffffff;
+    }
+    .preset-btn.highlight-emerald.is-active {
+      background: var(--emerald);
+      border-color: var(--emerald);
+      color: #ffffff;
     }
 
     /* Fila de KPIs estilo editorial limpio (sin cajas pesadas, solo filetes superiores) */
     .kpi-strip {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 1.1rem 1.4rem;
+      gap: 1.1rem 1.45rem;
       padding-top: 0.2rem;
     }
     @media (min-width: 900px) {
       .kpi-strip { grid-template-columns: repeat(4, minmax(0, 1fr)); }
     }
     .kpi-item {
-      border-top: 2px solid var(--hairline-strong);
-      padding-top: 0.65rem;
+      border-top: 2px solid var(--navy);
+      padding-top: 0.68rem;
       display: flex;
       flex-direction: column;
-      gap: 0.16rem;
+      gap: 0.18rem;
     }
-    .kpi-item.coral { border-top-color: var(--coral); }
-    .kpi-item.amber { border-top-color: var(--amber); }
-    .kpi-item.teal { border-top-color: var(--teal); }
+    .kpi-item.crimson { border-top-color: var(--crimson); }
+    .kpi-item.ochre   { border-top-color: var(--ochre); }
+    .kpi-item.emerald { border-top-color: var(--emerald); }
     .kpi-label {
       margin: 0;
-      font-size: 0.73rem;
-      font-weight: 700;
+      font-size: 0.71rem;
+      font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.06em;
       color: var(--ink-muted);
     }
     .kpi-value {
       margin: 0;
-      font-size: clamp(1.02rem, 1.6vw, 1.22rem);
-      font-weight: 850;
-      color: var(--navy);
+      font-family: var(--font-mono);
+      font-size: clamp(0.95rem, 1.45vw, 1.14rem);
+      font-weight: 700;
+      color: var(--navy-dark);
       font-variant-numeric: tabular-nums;
       word-break: break-word;
     }
-    .kpi-item.coral .kpi-value { color: var(--coral); }
-    .kpi-item.amber .kpi-value { color: var(--amber); }
-    .kpi-item.teal .kpi-value { color: var(--teal-ink); }
+    .kpi-item.crimson .kpi-value { color: var(--crimson); }
+    .kpi-item.ochre   .kpi-value { color: var(--ochre); }
+    .kpi-item.emerald .kpi-value { color: var(--emerald); }
     .kpi-sub {
       margin: 0;
-      font-size: 0.75rem;
+      font-size: 0.74rem;
       color: var(--ink-muted);
       font-variant-numeric: tabular-nums;
     }
 
-    /* Cinta de cálculo en vivo (sobria, sin caja pesada — filete vertical) */
+    /* Cinta de cálculo en vivo (sobria, sin caja — solo filete vertical izquierdo) */
     .live-readout {
-      border-left: 2px solid var(--navy);
+      border-left: 2.5px solid var(--navy);
       padding: 0.35rem 0 0.35rem 1rem;
       display: flex;
       flex-wrap: wrap;
@@ -515,25 +746,26 @@
       gap: 0.65rem;
     }
     #liveFormula {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size: 0.80rem;
+      font-family: var(--font-mono);
+      font-size: 0.77rem;
       color: var(--ink-secondary);
       line-height: 1.55;
       overflow-x: auto;
     }
     .status-pill {
       display: inline-block;
-      padding: 0.24rem 0.74rem;
+      padding: 0.25rem 0.78rem;
       border-radius: var(--radius-pill);
-      font-size: 0.74rem;
+      font-size: 0.73rem;
       font-weight: 700;
       flex-shrink: 0;
+      transition: background 220ms, color 220ms, border-color 220ms;
     }
-    .status-pill.ok { background: #ECFDF5; color: #065F46; border: 1px solid #A7F3D0; }
-    .status-pill.warn { background: #FEF2F2; color: #991B1B; border: 1px solid #FECACA; }
-    .status-pill.info { background: #F1F5F9; color: var(--navy); border: 1px solid #CBD5E1; }
+    .status-pill.ok   { background: var(--emerald-bg); color: var(--emerald); border: 1px solid rgba(40, 116, 99, 0.30); }
+    .status-pill.warn { background: var(--crimson-bg); color: var(--crimson); border: 1px solid var(--crimson-border); }
+    .status-pill.info { background: var(--bg-tert); color: var(--navy); border: 1px solid var(--hairline-strong); }
 
-    /* Gráficos sobre superficie opaca limpia y de alto contraste */
+    /* Gráficos sobre superficie opaca blanca de alto contraste */
     .charts-grid {
       display: grid;
       grid-template-columns: minmax(0, 1fr);
@@ -557,14 +789,15 @@
     }
     .chart-head h3 {
       margin: 0;
-      font-size: 0.92rem;
+      font-size: 0.91rem;
       font-weight: 800;
-      color: var(--navy);
+      color: var(--navy-dark);
     }
     .chart-meta {
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--ink-muted);
+      font-family: var(--font-mono);
+      font-size: 0.73rem;
+      font-weight: 600;
+      color: var(--crimson);
     }
     .chart-frame {
       position: relative;
@@ -572,10 +805,16 @@
       width: 100%;
       min-width: 0;
       overflow: hidden;
-      background: #FFFFFF;
+      background: #ffffff;
       border-radius: 16px;
-      padding: 0.65rem 0.5rem 0.45rem;
+      padding: 0.65rem 0.55rem 0.45rem;
       border: 1px solid var(--hairline);
+      box-shadow: 0 4px 18px rgba(18, 47, 81, 0.04);
+      transition: box-shadow 260ms var(--ease-apple), border-color 260ms;
+    }
+    .chart-frame:hover {
+      border-color: var(--hairline-strong);
+      box-shadow: 0 8px 26px rgba(18, 47, 81, 0.07);
     }
 
     /* ============================================================== */
@@ -583,23 +822,29 @@
     /* ============================================================== */
     .section-head h2 {
       margin: 0;
-      font-size: clamp(1.32rem, 2.4vw, 1.72rem);
-      font-weight: 850;
-      letter-spacing: -0.025em;
-      color: var(--navy);
+      font-size: clamp(1.38rem, 2.5vw, 1.85rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--navy-dark);
+    }
+    .section-head h2 em {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-style: italic;
+      color: var(--crimson);
     }
     .section-head p {
-      margin: 0.4rem 0 0;
+      margin: 0.45rem 0 0;
       font-size: 0.93rem;
       color: var(--ink-secondary);
       max-width: 68ch;
     }
 
-    /* Definiciones en rejilla abierta con filetes limpios (sin tarjetas) */
+    /* Definiciones en rejilla abierta con filetes limpios (sin cajas) */
     .defs-grid {
-      margin-top: 1.6rem;
+      margin-top: 1.7rem;
       display: grid;
-      gap: 2rem 2.6rem;
+      gap: 2.1rem 2.7rem;
     }
     @media (min-width: 768px) {
       .defs-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -610,7 +855,20 @@
       display: flex;
       flex-direction: column;
       gap: 0.65rem;
+      position: relative;
+      transition: border-color 220ms var(--ease-apple);
     }
+    .def-entry::before {
+      content: "";
+      position: absolute;
+      top: -1px;
+      left: 0;
+      width: 36px;
+      height: 2px;
+      background: var(--crimson);
+      transition: width 360ms var(--ease-apple);
+    }
+    .def-entry:hover::before { width: 88px; }
     .def-top {
       display: flex;
       align-items: baseline;
@@ -621,31 +879,32 @@
       margin: 0;
       font-size: 1.04rem;
       font-weight: 800;
-      color: var(--navy);
+      color: var(--navy-dark);
     }
     .def-ref {
-      font-size: 0.72rem;
+      font-family: var(--font-mono);
+      font-size: 0.70rem;
       font-weight: 700;
       letter-spacing: 0.05em;
       text-transform: uppercase;
-      color: var(--teal);
+      color: var(--crimson);
       white-space: nowrap;
     }
-    .def-ref.amber { color: var(--amber); }
+    .def-ref.navy { color: var(--navy-light); }
 
-    /* Fórmulas libres y centradas sobre el lienzo limpio (SIN caja) */
+    /* Fórmulas libres sobre el lienzo limpio (SIN caja) */
     .formula-display {
       padding: 0.55rem 0;
       overflow-x: auto;
-      color: var(--navy);
+      color: var(--navy-dark);
     }
     .formula-cond {
       display: block;
-      margin-top: 0.2rem;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: 0.82rem;
+      margin-top: 0.22rem;
+      font-family: var(--font-sans);
+      font-size: 0.81rem;
       font-style: italic;
-      color: var(--ink-muted);
+      color: var(--crimson);
     }
     .def-entry p {
       margin: 0;
@@ -653,9 +912,9 @@
       color: var(--ink-secondary);
     }
 
-    /* Video editorial (marco limpio 16:9 sin recuadro padre redundante) */
+    /* Video editorial (marco limpio 16:9 sobre navy profundo EECA) */
     .video-wrap {
-      margin-top: 1.25rem;
+      margin-top: 1.3rem;
       display: flex;
       flex-direction: column;
       gap: 0.75rem;
@@ -665,27 +924,32 @@
       max-width: 940px;
       margin-inline: auto;
       aspect-ratio: 16 / 9;
-      border-radius: 20px;
+      border-radius: 18px;
       overflow: hidden;
-      background: #060911;
-      box-shadow: 0 22px 50px rgba(10, 29, 55, 0.16);
+      background: #091426;
+      box-shadow: 0 24px 56px rgba(18, 47, 81, 0.18), 0 0 0 1px rgba(22, 59, 104, 0.14);
+      transition: transform 350ms var(--ease-apple), box-shadow 350ms var(--ease-apple);
+    }
+    .video-frame:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 28px 64px rgba(18, 47, 81, 0.22), 0 0 0 1px rgba(159, 37, 54, 0.22);
     }
     .video-frame video {
       width: 100%;
       height: 100%;
       display: block;
-      background: #060911;
+      background: #091426;
     }
     .video-caption {
       margin: 0;
       text-align: center;
-      font-size: 0.82rem;
+      font-size: 0.81rem;
       color: var(--ink-muted);
     }
 
     /* Ejercicios desplegables abiertos (solo filetes horizontales, sin cajas) */
     .ex-list {
-      margin-top: 1.25rem;
+      margin-top: 1.35rem;
       border-top: 1px solid var(--hairline-strong);
     }
     details.ex-item {
@@ -694,43 +958,48 @@
     details.ex-item > summary {
       list-style: none;
       cursor: pointer;
-      min-height: 60px;
-      padding: 1.1rem 0.25rem;
+      min-height: 64px;
+      padding: 1.15rem 0.25rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 1rem;
-      transition: opacity 150ms;
+      transition: color 180ms;
     }
     details.ex-item > summary::-webkit-details-marker { display: none; }
-    details.ex-item > summary:hover { opacity: 0.82; }
+    details.ex-item > summary:hover .ex-title { color: var(--crimson); }
     .ex-kicker {
       display: block;
-      font-size: 0.72rem;
-      font-weight: 800;
+      font-family: var(--font-mono);
+      font-size: 0.70rem;
+      font-weight: 700;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: var(--teal);
+      color: var(--crimson);
     }
-    .ex-kicker.amber { color: var(--amber); }
-    .ex-kicker.navy { color: var(--ink-muted); }
+    .ex-kicker.ochre { color: var(--ochre); }
+    .ex-kicker.emerald { color: var(--emerald); }
     .ex-title {
-      margin: 0.2rem 0 0;
+      margin: 0.22rem 0 0;
       font-size: clamp(1.02rem, 1.8vw, 1.18rem);
       font-weight: 800;
-      letter-spacing: -0.015em;
-      color: var(--navy);
+      letter-spacing: -0.02em;
+      color: var(--navy-dark);
+      transition: color 180ms;
     }
     .chevron {
-      color: var(--ink-muted);
-      font-size: 0.9rem;
+      color: var(--crimson);
+      font-size: 0.85rem;
       flex-shrink: 0;
-      transition: transform 200ms var(--ease-apple);
+      transition: transform 240ms var(--ease-apple);
     }
     details[open] .chevron { transform: rotate(180deg); }
+    details[open] .ex-body {
+      animation: detailsReveal 320ms var(--ease-apple);
+    }
 
     .ex-body {
-      padding: 0.2rem 0.25rem 1.65rem;
+      padding: 0.2rem 0.25rem 1.7rem;
       display: flex;
       flex-direction: column;
       gap: 1rem;
@@ -740,12 +1009,12 @@
     }
     .ex-body p { margin: 0; }
     .editorial-note {
-      border-left: 2px solid var(--teal);
-      padding-left: 1rem;
+      border-left: 2.5px solid var(--crimson);
+      padding-left: 1.05rem;
       color: var(--ink);
     }
-    .editorial-note.amber { border-left-color: var(--amber); }
-    .editorial-note.navy { border-left-color: var(--navy); }
+    .editorial-note.emerald { border-left-color: var(--emerald); }
+    .editorial-note.navy    { border-left-color: var(--navy); }
 
     /* Tabla comparativa sobria sin marco exterior pesado */
     .compare-table {
@@ -755,17 +1024,24 @@
       background: transparent;
     }
     .compare-table th, .compare-table td {
-      padding: 0.55rem 0.55rem;
+      padding: 0.58rem 0.55rem;
       text-align: left;
       border-bottom: 1px solid var(--hairline);
     }
     .compare-table th {
-      font-size: 0.75rem;
-      font-weight: 800;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       color: var(--ink-muted);
       border-bottom: 1.5px solid var(--navy);
+    }
+    .compare-table tbody tr {
+      transition: background 180ms;
+    }
+    .compare-table tbody tr:hover {
+      background: rgba(247, 245, 242, 0.75);
     }
     @media (max-width: 639px) {
       .compare-table { font-size: 0.77rem; }
@@ -773,8 +1049,9 @@
       .compare-table .math { white-space: normal; }
     }
     .num-strong {
-      font-weight: 850;
-      color: var(--navy);
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: var(--crimson);
       font-variant-numeric: tabular-nums;
       white-space: nowrap;
     }
@@ -782,7 +1059,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 0.45rem;
-      margin-top: 0.55rem;
+      margin-top: 0.6rem;
     }
 
     /* Bibliografía sobria */
@@ -791,7 +1068,7 @@
       padding-left: 1.15rem;
       display: flex;
       flex-direction: column;
-      gap: 0.65rem;
+      gap: 0.7rem;
       font-size: 0.90rem;
       color: var(--ink-secondary);
       max-width: 78ch;
@@ -799,22 +1076,35 @@
 
     .site-footer {
       max-width: 1080px;
-      margin: 2.8rem auto 0;
-      padding: 1.4rem 1.5rem 0;
+      margin: 3rem auto 0;
+      padding: 1.5rem 1.5rem 0;
       border-top: 1px solid var(--hairline);
-      text-align: center;
-      font-size: 0.79rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem 1.2rem;
+      font-size: 0.78rem;
       color: var(--ink-muted);
+    }
+    .footer-brand {
+      font-weight: 800;
+      color: var(--navy-dark);
+      letter-spacing: -0.02em;
+    }
+    .footer-brand span {
+      color: var(--crimson);
+      font-weight: 700;
     }
 
     /* Tipografía matemática serif editorial */
     .math {
-      font-family: "Cambria Math", "STIX Two Math", "Times New Roman", Georgia, serif;
+      font-family: "Cambria Math", "STIX Two Math", Georgia, "Times New Roman", serif;
       font-size: 1.06em;
       white-space: nowrap;
     }
     .math-block {
-      font-family: "Cambria Math", "STIX Two Math", "Times New Roman", Georgia, serif;
+      font-family: "Cambria Math", "STIX Two Math", Georgia, "Times New Roman", serif;
       font-size: 1.16rem;
       line-height: 1.85;
     }
@@ -843,7 +1133,7 @@
       margin: 0 4px;
       line-height: 0.86;
     }
-    .conv .mode { font-size: 0.68em; font-weight: 700; margin-bottom: -2px; }
+    .conv .mode { font-size: 0.68em; font-weight: 700; margin-bottom: -2px; color: var(--crimson); }
     .lim-stack {
       display: inline-flex;
       flex-direction: column;
@@ -857,20 +1147,28 @@
 </head>
 <body>
 
+  <!-- Filete animado de progreso de lectura -->
+  <div class="scroll-progress" aria-hidden="true">
+    <div id="scrollProgressBar" class="scroll-progress-bar"></div>
+  </div>
+
   <!-- Navegación flotante Apple Liquid Glass -->
-  <header class="site-header">
+  <header id="siteHeader" class="site-header">
     <div class="nav-shell liquid-glass">
       <div class="brand">
-        <p class="brand-kicker">UCV · FACES · EECA · Probabilidad II</p>
-        <h1 class="brand-title">Sucesiones y Convergencia</h1>
+        <span class="brand-mark" aria-hidden="true">∫</span>
+        <div class="brand-copy">
+          <p class="brand-kicker">EECA · FaCES · UCV · Probabilidad II</p>
+          <h1 class="brand-title">Sucesiones y Convergencia</h1>
+        </div>
       </div>
 
       <nav aria-label="Navegación principal" class="desktop-nav">
-        <a href="#simulador">Simulador</a>
-        <a href="#definiciones">Definiciones</a>
-        <a href="#video">Video</a>
-        <a href="#ejercicios">Ejercicios</a>
-        <a href="#bibliografia">Fuentes</a>
+        <a href="#simulador" data-section="simulador">Simulador</a>
+        <a href="#definiciones" data-section="definiciones">Definiciones</a>
+        <a href="#video" data-section="video">Video</a>
+        <a href="#ejercicios" data-section="ejercicios">Ejercicios</a>
+        <a href="#bibliografia" data-section="bibliografia">Fuentes</a>
       </nav>
 
       <button id="toggleSolidBtn" type="button" aria-pressed="false" class="btn-solid-toggle">
@@ -881,29 +1179,34 @@
 
   <!-- Dock móvil flotante Apple Liquid Glass -->
   <nav aria-label="Navegación móvil" class="mobile-dock liquid-glass">
-    <a href="#simulador" class="active-tab">Simulador</a>
-    <a href="#definiciones">Teoría</a>
-    <a href="#video">Video</a>
-    <a href="#ejercicios">Ejercicios</a>
+    <a href="#simulador" data-section="simulador" class="active-tab">Simulador</a>
+    <a href="#definiciones" data-section="definiciones">Teoría</a>
+    <a href="#video" data-section="video">Video</a>
+    <a href="#ejercicios" data-section="ejercicios">Ejercicios</a>
   </nav>
 
   <main class="container">
 
-    <!-- ENCABEZADO EDITORIAL ABIERTO (sin recuadros) -->
+    <!-- ENCABEZADO EDITORIAL ABIERTO (sin recuadros, paleta EECA–UCV) -->
     <section class="hero-section hero-layout">
-      <div>
+      <div class="reveal is-visible">
         <span class="kicker">Tema 5 · Notación de la Cátedra (Ramírez y Vásquez, 2005)</span>
-        <h2 class="hero-title">Sucesiones de Variables Aleatorias y Convergencia</h2>
+        <h2 class="hero-title">Sucesiones de Variables Aleatorias y <em>Convergencia.</em></h2>
         <p class="hero-lead">
           Modelo central de siniestros diarios normales independientes e idénticamente distribuidos
           <span class="math">X<sub>i</sub> ∼ N(μ = 50, σ<sup>2</sup> = 100)</span>.
           Con observaciones normales i.i.d., la media muestral <span class="math"><span class="xbar">X</span><sub>n</sub></span> tiene
           <strong>distribución normal exacta para todo <span class="math">n ≥ 1</span></strong>.
         </p>
+        <div class="hero-signature">
+          <span class="signature-line" aria-hidden="true"></span>
+          <span>Escuela de Estadística y Ciencias Actuariales · <strong>Universidad Central de Venezuela</strong></span>
+        </div>
       </div>
-      <aside class="hero-math-aside" aria-label="Fórmula del modelo central">
+
+      <aside class="hero-math-aside reveal is-visible reveal-d2" aria-label="Fórmula del modelo central">
         <p class="hero-math-label">Modelo Central Unificado</p>
-        <div class="math-block" style="color:var(--navy);">
+        <div class="math-block" style="color:var(--navy-dark);">
           <span class="xbar">X</span><sub>n</sub> =
           <span class="frac"><span class="num">1</span><span class="den">n</span></span>∑X<sub>i</sub>
           ∼ N(50, <span class="frac"><span class="num">100</span><span class="den">n</span></span>)
@@ -913,12 +1216,33 @@
           <span class="math">Z<sub>n</sub> = <span class="frac"><span class="num"><span class="xbar">X</span><sub>n</sub> − 50</span><span class="den">10/√n</span></span> ∼ N(0, 1)</span>
         </div>
         <p class="hero-exact-caption">Normal exacta para todo n · Escala vertical fija [0; 1,0]</p>
+
+        <!-- Trazo editorial animado abierto (sin caja) inspirado en 8_EECAUCV-WEB -->
+        <svg class="hero-mini-svg" viewBox="0 0 340 66" role="img" aria-label="Ilustración estilizada de concentración de densidad hacia μ = 50">
+          <defs>
+            <linearGradient id="heroCurveFill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#9f2536" stop-opacity="0.22" />
+              <stop offset="100%" stop-color="#9f2536" stop-opacity="0.00" />
+            </linearGradient>
+          </defs>
+          <line x1="0" y1="58" x2="340" y2="58" stroke="#c8d1db" stroke-width="1" />
+          <line x1="170" y1="10" x2="170" y2="58" stroke="#163b68" stroke-dasharray="3 4" stroke-opacity="0.45" stroke-width="1" />
+          <line x1="142" y1="16" x2="142" y2="58" stroke="#287463" stroke-dasharray="3 3" stroke-opacity="0.55" stroke-width="1" />
+          <line x1="198" y1="16" x2="198" y2="58" stroke="#287463" stroke-dasharray="3 3" stroke-opacity="0.55" stroke-width="1" />
+          <!-- Curva ancha referencia n = 1 -->
+          <path d="M 8 57 C 75 56, 118 44, 170 42 C 222 44, 265 56, 332 57" fill="none" stroke="#163b68" stroke-opacity="0.32" stroke-width="1.3" stroke-dasharray="4 3" />
+          <!-- Curva concentrada animada -->
+          <path class="hero-curve-area" d="M 40 58 C 118 58, 146 54, 158 28 C 164 15, 167 10, 170 10 C 173 10, 176 15, 182 28 C 194 54, 222 58, 300 58 Z" fill="url(#heroCurveFill)" />
+          <path class="hero-curve-stroke" d="M 40 58 C 118 58, 146 54, 158 28 C 164 15, 167 10, 170 10 C 173 10, 176 15, 182 28 C 194 54, 222 58, 300 58" fill="none" stroke="#9f2536" stroke-width="2.2" stroke-linecap="round" />
+          <circle class="hero-beacon-ring" cx="170" cy="10" r="5" fill="#9f2536" />
+          <circle cx="170" cy="10" r="3" fill="#9f2536" stroke="#ffffff" stroke-width="1.3" />
+        </svg>
       </aside>
     </section>
 
     <!-- SIMULADOR INTERACTIVO (Prioridad móvil; controles sobre Apple Liquid Glass) -->
     <section id="simulador" class="simulator-section simulator-stack" aria-label="Simulador interactivo de convergencia">
-      <div class="liquid-glass sim-controls">
+      <div class="liquid-glass sim-controls reveal is-visible">
         <div class="sim-head">
           <div>
             <h2 class="sim-title">Simulador Interactivo: {<span class="math"><span class="xbar">X</span><sub>n</sub></span>} →<sup>P</sup> 50</h2>
@@ -926,9 +1250,14 @@
               Escala vertical fija en <strong>[0; 1,0]</strong> hasta <span class="math">n = 500</span> (máx. <span class="math">≈ 0,892</span>) con ambos bordes exactos <span class="math">50 − ε</span> y <span class="math">50 + ε</span>.
             </p>
           </div>
-          <button id="btnResim" type="button" class="btn-glass-action">
-            Nueva muestra (5 trayectorias)
-          </button>
+          <div class="sim-actions">
+            <button id="btnPlaySim" type="button" class="btn-glass-action crimson" aria-pressed="false">
+              ▶ Animar n = 1 → 500
+            </button>
+            <button id="btnResim" type="button" class="btn-glass-action">
+              Nueva muestra
+            </button>
+          </div>
         </div>
 
         <div class="controls-grid">
@@ -942,23 +1271,23 @@
               <button type="button" data-n="1" class="preset-btn preset-n">n = 1</button>
               <button type="button" data-n="25" class="preset-btn preset-n">n = 25</button>
               <button type="button" data-n="96" class="preset-btn preset-n">n = 96</button>
-              <button type="button" data-n="97" class="preset-btn preset-n highlight-teal">n = 97 (mín. normal)</button>
+              <button type="button" data-n="97" class="preset-btn preset-n highlight-emerald">n = 97 (mín. normal)</button>
               <button type="button" data-n="100" class="preset-btn preset-n">n = 100</button>
               <button type="button" data-n="400" class="preset-btn preset-n">n = 400</button>
-              <button type="button" data-n="500" class="preset-btn preset-n highlight-amber">n = 500 (Tchebycheff)</button>
+              <button type="button" data-n="500" class="preset-btn preset-n highlight-crimson">n = 500 (Tchebycheff)</button>
             </div>
           </div>
 
           <div class="control-group">
             <div class="control-top">
               <label for="sliderEps" class="control-label">Tolerancia (<span class="math">ε</span> en USD)</label>
-              <span id="valEps" class="value-pill amber">ε = 2,0</span>
+              <span id="valEps" class="value-pill crimson">ε = 2,0</span>
             </div>
-            <input id="sliderEps" type="range" min="0.5" max="10" step="0.5" value="2" class="amber-range" aria-label="Tolerancia épsilon" />
+            <input id="sliderEps" type="range" min="0.5" max="10" step="0.5" value="2" class="crimson-range" aria-label="Tolerancia épsilon" />
             <div class="preset-row">
               <button type="button" data-eps="0.5" class="preset-btn preset-eps">ε = 0,5</button>
               <button type="button" data-eps="1" class="preset-btn preset-eps">ε = 1,0</button>
-              <button type="button" data-eps="2" class="preset-btn preset-eps highlight-amber">ε = 2,0</button>
+              <button type="button" data-eps="2" class="preset-btn preset-eps highlight-crimson">ε = 2,0</button>
               <button type="button" data-eps="3" class="preset-btn preset-eps">ε = 3,0</button>
               <button type="button" data-eps="5" class="preset-btn preset-eps">ε = 5,0</button>
               <button type="button" data-eps="10" class="preset-btn preset-eps">ε = 10,0</button>
@@ -969,22 +1298,22 @@
 
       <!-- Lecturas numéricas limpias (sin recuadros) -->
       <div class="kpi-strip">
-        <div class="kpi-item">
+        <div class="kpi-item reveal is-visible">
           <p class="kpi-label">Varianza / Desv. estándar</p>
           <p id="kpiVar" class="kpi-value">—</p>
           <p id="kpiPeak" class="kpi-sub">—</p>
         </div>
-        <div class="kpi-item coral">
+        <div class="kpi-item crimson reveal is-visible reveal-d1">
           <p class="kpi-label">Prob. exacta fuera (≥ <span style="text-transform:none;">ε</span>)</p>
           <p id="kpiOutExact" class="kpi-value">—</p>
           <p id="kpiOutPct" class="kpi-sub">—</p>
         </div>
-        <div class="kpi-item amber">
+        <div class="kpi-item ochre reveal is-visible reveal-d2">
           <p class="kpi-label">Cota efectiva Tchebycheff</p>
           <p id="kpiCheb" class="kpi-value">—</p>
           <p id="kpiChebExpr" class="kpi-sub">—</p>
         </div>
-        <div class="kpi-item teal">
+        <div class="kpi-item emerald reveal is-visible reveal-d3">
           <p class="kpi-label">Prob. exacta dentro (&lt; <span style="text-transform:none;">ε</span>)</p>
           <p id="kpiInExact" class="kpi-value">—</p>
           <p id="kpiInPct" class="kpi-sub">—</p>
@@ -996,9 +1325,9 @@
         <span id="targetBadge" class="status-pill info"></span>
       </div>
 
-      <!-- Gráficos sobre superficie opaca de alto contraste -->
+      <!-- Gráficos sobre superficie opaca blanca de alto contraste -->
       <div class="charts-grid">
-        <div class="chart-block">
+        <div class="chart-block reveal is-visible">
           <div class="chart-head">
             <h3>Densidad de <span class="math"><span class="xbar">X</span><sub>n</sub> ∼ N(50, 100/n)</span> (escala fija [0; 1,0])</h3>
             <span id="densityTag" class="chart-meta">Bordes: 48,0 y 52,0 USD</span>
@@ -1008,7 +1337,7 @@
           </div>
         </div>
 
-        <div class="chart-block">
+        <div class="chart-block reveal is-visible reveal-d1">
           <div class="chart-head">
             <h3>Muestra de 5 trayectorias (términos finitos 1…n)</h3>
             <span id="pathTag" class="chart-meta">Banda: 50 ± 2,0</span>
@@ -1022,19 +1351,19 @@
 
     <!-- DEFINICIONES FORMALES (diseño abierto, sin recuadros en textos ni fórmulas) -->
     <section id="definiciones" class="definitions-section section-divider">
-      <div class="section-head">
+      <div class="section-head reveal">
         <span class="kicker">Fundamento Teórico</span>
-        <h2>Definiciones Formales y Jerarquía del Curso</h2>
+        <h2>Definiciones Formales y <em>Jerarquía</em> del Curso</h2>
         <p>
           Sobre un espacio de probabilidad <span class="math">(Ω, ℱ, P)</span>, una sucesión <span class="math">{X<sub>n</sub>}</span> asigna a cada <span class="math">n ∈ ℕ</span> una variable aleatoria con función de distribución <span class="math">F<sub>n</sub>(x) = P[X<sub>n</sub> ≤ x]</span>.
         </p>
       </div>
 
       <div class="defs-grid">
-        <article class="def-entry">
+        <article class="def-entry reveal reveal-d1">
           <div class="def-top">
             <h3>Convergencia en Probabilidad</h3>
-            <span class="def-ref">Eje Tema 5</span>
+            <span class="def-ref">01 · Eje Tema 5</span>
           </div>
           <div class="formula-display math-block">
             {X<sub>n</sub>}<span class="conv"><span class="mode">P</span><span>→</span></span>X &nbsp;⇔&nbsp;
@@ -1044,10 +1373,10 @@
           <p><strong>Def. 5.1.2 (Ramírez y Vásquez, p. 153):</strong> Si <span class="math">X = X<sub>c</sub> = c</span> (constante degenerada), se denomina <strong>convergencia estocástica</strong>.</p>
         </article>
 
-        <article class="def-entry">
+        <article class="def-entry reveal reveal-d2">
           <div class="def-top">
             <h3>Convergencia en Distribución</h3>
-            <span class="def-ref">Eje Tema 5</span>
+            <span class="def-ref">02 · Eje Tema 5</span>
           </div>
           <div class="formula-display math-block">
             {X<sub>n</sub>}<span class="conv"><span class="mode">F</span><span>→</span></span>X &nbsp;⇔&nbsp;
@@ -1057,10 +1386,10 @@
           <p><strong>Def. 5.1.1 (p. 153):</strong> Exigida en los puntos de continuidad de la función de distribución límite <span class="math">F<sub>X</sub></span>. Por el <strong>Teor. 5.1.1</strong>, hacia una constante <span class="math">X<sub>c</sub> = c</span> equivale a <span class="math">→<sup>P</sup></span>.</p>
         </article>
 
-        <article class="def-entry">
+        <article class="def-entry reveal reveal-d3">
           <div class="def-top">
             <h3>Convergencia en Media Cuadrática (L<sup>2</sup>)</h3>
-            <span class="def-ref amber">Rincón, Cap. 7</span>
+            <span class="def-ref navy">03 · Rincón, Cap. 7</span>
           </div>
           <div class="formula-display math-block">
             {X<sub>n</sub>}<span class="conv"><span class="mode">L²</span><span>→</span></span>X &nbsp;⇔&nbsp;
@@ -1069,10 +1398,10 @@
           <p><strong>Rincón (2010, p. 294):</strong> Exige segundos momentos finitos. En el ejemplo central, <span class="math">E[(<span class="xbar">X</span><sub>n</sub> − 50)<sup>2</sup>] = 100/n → 0</span>.</p>
         </article>
 
-        <article class="def-entry">
+        <article class="def-entry reveal reveal-d4">
           <div class="def-top">
             <h3>Convergencia Casi Segura (c.s.)</h3>
-            <span class="def-ref amber">Rincón, Cap. 7</span>
+            <span class="def-ref navy">04 · Rincón, Cap. 7</span>
           </div>
           <div class="formula-display math-block">
             {X<sub>n</sub>}<span class="conv"><span class="mode">c.s.</span><span>→</span></span>X &nbsp;⇔&nbsp;
@@ -1085,14 +1414,14 @@
 
     <!-- VIDEO MOTION GRAPHICS 30 FPS CON REMOTION + LOCUCIÓN Y SUBTÍTULOS -->
     <section id="video" class="video-section section-divider">
-      <div class="section-head">
+      <div class="section-head reveal">
         <span class="kicker">Animación 16:9 · 30 fps · Remotion + KaTeX</span>
-        <h2>Video con Locución en Español y Motion Graphics</h2>
+        <h2>Video con Locución en Español y <em>Motion Graphics</em></h2>
         <p>
           Narración en español sincronizada con las fórmulas matemáticas, el barrido continuo de densidades hasta <span class="math">n = 500</span> bajo escala fija <span class="math">[0; 1,0]</span>, Moivre–Laplace y consistencia de <span class="math">S<sub>n</sub><sup>2</sup></span>.
         </p>
       </div>
-      <div class="video-wrap">
+      <div class="video-wrap reveal reveal-d1">
         <div class="video-frame">
           <video id="courseVideo" controls preload="metadata" playsinline crossorigin="anonymous">
             <source src="./Video_Convergencia_Probabilidad_II_UCV.mp4" type="video/mp4" />
@@ -1101,25 +1430,25 @@
           </video>
         </div>
         <p class="video-caption">
-          Audio en español (AAC 44,1 kHz estéreo) y subtítulos WebVTT alojados en el mismo origen HTTPS.
+          Audio en español (AAC estéreo) y subtítulos WebVTT sincronizados alojados en el mismo origen HTTPS.
         </p>
       </div>
     </section>
 
     <!-- EJERCICIOS RESUELTOS (acordeón editorial abierto, sin recuadros) -->
     <section id="ejercicios" class="exercises-section section-divider">
-      <div class="section-head">
+      <div class="section-head reveal">
         <span class="kicker">Desarrollo Extendido</span>
-        <h2>Ejercicios Resueltos Completos</h2>
+        <h2>Ejercicios Resueltos <em>Completos</em></h2>
         <p>Despliega cada ejercicio para revisar hipótesis, pasos de cálculo, comparaciones de precisión y demostraciones rigurosas.</p>
       </div>
 
-      <div class="ex-list">
+      <div class="ex-list reveal reveal-d1">
         <!-- Ejercicio 1 -->
         <details class="ex-item" open>
           <summary>
             <div>
-              <span class="ex-kicker">Ejercicio 1 · Convergencia en Probabilidad (Teor. 5.1.2)</span>
+              <span class="ex-kicker">Ejercicio 01 · Convergencia en Probabilidad (Teor. 5.1.2)</span>
               <h3 class="ex-title">Cota suficiente de Tchebycheff (n ≥ 500) vs. mínimo bajo el modelo normal (n = 97)</h3>
             </div>
             <span class="chevron" aria-hidden="true">▼</span>
@@ -1143,15 +1472,15 @@
               &nbsp;⇒&nbsp; n ≥ 96,0365
               &nbsp;⇒&nbsp; <strong>n = 97</strong>
             </div>
-            <div class="editorial-note">
+            <div class="editorial-note emerald">
               <strong>Interpretación exacta:</strong>
               Mediante la cota de Tchebycheff, <strong><span class="math">n ≥ 500</span> garantiza el objetivo</strong> (cota suficiente válida sin asumir normalidad).
               Bajo el modelo normal del ejercicio, <strong><span class="math">n = 97</span> es el mínimo exacto</strong>:
               con <span class="math">n = 96</span> se obtiene <span class="math">P[|<span class="xbar">X</span><sub>96</sub> − 50| &lt; 2] ≈ 0,94995648 &lt; 0,95</span> (no cumple), mientras que con <span class="math">n = 97</span> se alcanza <span class="math">≈ 0,95113544 ≥ 0,95</span> (cumple).
               <div class="quick-try-row">
                 <button type="button" class="preset-btn quick-sim" data-n="96" data-eps="2">Probar n = 96, ε = 2</button>
-                <button type="button" class="preset-btn highlight-teal quick-sim" data-n="97" data-eps="2">Probar n = 97, ε = 2</button>
-                <button type="button" class="preset-btn highlight-amber quick-sim" data-n="500" data-eps="2">Probar n = 500, ε = 2</button>
+                <button type="button" class="preset-btn highlight-emerald quick-sim" data-n="97" data-eps="2">Probar n = 97, ε = 2</button>
+                <button type="button" class="preset-btn highlight-crimson quick-sim" data-n="500" data-eps="2">Probar n = 500, ε = 2</button>
               </div>
             </div>
           </div>
@@ -1161,7 +1490,7 @@
         <details class="ex-item">
           <summary>
             <div>
-              <span class="ex-kicker amber">Ejercicio 2 · Convergencia en Distribución (Teor. 5.2.4)</span>
+              <span class="ex-kicker ochre">Ejercicio 02 · Convergencia en Distribución (Teor. 5.2.4)</span>
               <h3 class="ex-title">Teorema de Moivre–Laplace para X ∼ b(10; 0,5) con corrección por continuidad</h3>
             </div>
             <span class="chevron" aria-hidden="true">▼</span>
@@ -1211,7 +1540,7 @@
               </tbody>
             </table>
 
-            <div class="editorial-note amber">
+            <div class="editorial-note">
               <strong>Distinción clave:</strong> <span class="math">0,56836</span> es el valor binomial exacto redondeado; <span class="math">0,56845</span> proviene de la tabla normal del curso a 2 decimales; y <span class="math">0,56716</span> es la aproximación normal con corrección por continuidad evaluada sin redondear los valores estandarizados <span class="math">z<sub>1</sub></span> y <span class="math">z<sub>2</sub></span>.
             </div>
           </div>
@@ -1221,7 +1550,7 @@
         <details class="ex-item">
           <summary>
             <div>
-              <span class="ex-kicker navy">Ejercicio 3 · Consistencia de la Varianza Muestral (Teor. 5.1.3)</span>
+              <span class="ex-kicker emerald">Ejercicio 03 · Consistencia de la Varianza Muestral (Teor. 5.1.3)</span>
               <h3 class="ex-title">Demostración de {S<sub>n</sub><sup>2</sup>} →<sup>P</sup> σ<sup>2</sup> para cualquier ε &gt; 0</h3>
             </div>
             <span class="chevron" aria-hidden="true">▼</span>
@@ -1258,10 +1587,10 @@
     </section>
 
     <!-- APLICACIÓN ACTUARIAL BREVE (abierta, sin recuadro) -->
-    <section class="actuarial-section section-divider">
+    <section class="actuarial-section section-divider reveal">
       <div class="section-head">
         <span class="kicker">Contexto Actuarial</span>
-        <h2>Estabilidad de la Media de Cartera</h2>
+        <h2>Estabilidad de la Media de <em>Cartera</em></h2>
         <p>
           En una cartera de <span class="math">n</span> pólizas con siniestros diarios normales independientes e idénticamente distribuidos
           <span class="math">X<sub>i</sub> ∼ N(50, 100)</span>, la media muestral <span class="math"><span class="xbar">X</span><sub>n</sub></span> tiene media constante <span class="math">μ = 50</span> USD y varianza <span class="math">Var(<span class="xbar">X</span><sub>n</sub>) = 100/n</span>.
@@ -1273,7 +1602,7 @@
     </section>
 
     <!-- BIBLIOGRAFÍA (abierta, sin recuadro) -->
-    <section id="bibliografia" class="biblio-section section-divider">
+    <section id="bibliografia" class="biblio-section section-divider reveal">
       <div class="section-head">
         <span class="kicker">Fuentes de la Cátedra</span>
         <h2>Referencias Bibliográficas Consultadas</h2>
@@ -1287,7 +1616,8 @@
   </main>
 
   <footer class="site-footer">
-    <p>Teoría de la Probabilidad II · Escuela de Estadística y Ciencias Actuariales · UCV · Sitio académico público sin datos personales ni archivos privados.</p>
+    <span class="footer-brand">EECA <span>UCV</span></span>
+    <span>Teoría de la Probabilidad II · Facultad de Ciencias Económicas y Sociales · Sitio académico público sin datos personales ni archivos privados.</span>
   </footer>
 
   <script>
@@ -1296,6 +1626,7 @@
     const X_MIN = 25.0, X_MAX = 75.0;
     const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     let solidMode = false;
+    let lastPassedTarget = null;
 
     /** erfc(x) de doble precisión (W. J. Cody, 1969) — numéricamente estable en colas extremas */
     function erfcStable(x) {
@@ -1452,10 +1783,10 @@
         const xMu = scales.x.getPixelForValue(MU);
 
         ctx.save();
-        ctx.fillStyle = 'rgba(166, 106, 20, 0.065)';
+        ctx.fillStyle = 'rgba(40, 116, 99, 0.065)';
         ctx.fillRect(xLo, chartArea.top, xHi - xLo, chartArea.bottom - chartArea.top);
 
-        ctx.strokeStyle = '#A66A14';
+        ctx.strokeStyle = '#287463';
         ctx.lineWidth = 1.7;
         ctx.setLineDash([6, 4]);
         [xLo, xHi].forEach(px => {
@@ -1465,7 +1796,7 @@
           ctx.stroke();
         });
 
-        ctx.strokeStyle = 'rgba(10, 29, 55, 0.30)';
+        ctx.strokeStyle = 'rgba(22, 59, 104, 0.30)';
         ctx.lineWidth = 1.0;
         ctx.setLineDash([2, 3]);
         ctx.beginPath();
@@ -1474,19 +1805,19 @@
         ctx.stroke();
 
         ctx.setLineDash([]);
-        ctx.font = '700 10.5px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
-        ctx.fillStyle = '#8C5508';
+        ctx.font = '700 10.5px "JetBrains Mono", ui-monospace, monospace';
+        ctx.fillStyle = '#287463';
         const yLbl = chartArea.top + 13;
         ctx.textAlign = 'right';
         ctx.fillText(fmtES(lo, 1), xLo - 4, yLbl);
         ctx.textAlign = 'left';
         ctx.fillText(fmtES(hi, 1), xHi + 4, yLbl);
 
-        if (currentN >= 400) {
+        if (currentN >= 300) {
           const yPeak = scales.y.getPixelForValue(currentPeak);
-          ctx.fillStyle = '#0A1D37';
+          ctx.fillStyle = '#9f2536';
           ctx.beginPath();
-          ctx.arc(xMu, yPeak, 3.5, 0, Math.PI * 2);
+          ctx.arc(xMu, yPeak, 3.8, 0, Math.PI * 2);
           ctx.fill();
           ctx.textAlign = 'left';
           ctx.fillText(`máx. ≈ ${fmtES(currentPeak, 3)}`, xMu + 7, Math.max(chartArea.top + 26, yPeak + 4));
@@ -1495,7 +1826,8 @@
       }
     };
 
-    const animDur = () => (reducedMotionQuery.matches || solidMode ? 0 : 120);
+    let simAnimating = false;
+    const animDur = () => (reducedMotionQuery.matches || solidMode || simAnimating ? 0 : 140);
 
     const densityChart = new Chart(document.getElementById('densityChart').getContext('2d'), {
       type: 'line',
@@ -1508,7 +1840,7 @@
         animation: { duration: animDur() },
         interaction: { mode: 'nearest', axis: 'x', intersect: false },
         plugins: {
-          legend: { position: 'top', labels: { boxWidth: 11, font: { size: 11, weight: '600' }, color: '#0F172A' } },
+          legend: { position: 'top', labels: { boxWidth: 11, font: { size: 11, weight: '600' }, color: '#162c43' } },
           tooltip: {
             callbacks: {
               title: items => items.length ? `x = ${fmtES(items[0].parsed.x, 2)} USD` : '',
@@ -1519,15 +1851,15 @@
         scales: {
           x: {
             type: 'linear', min: X_MIN, max: X_MAX,
-            title: { display: true, text: 'x (USD) — escala fija [25; 75]', color: '#0A1D37', font: { weight: '700', size: 11 } },
-            ticks: { stepSize: 5, color: '#475569' },
-            grid: { color: '#EDF2F7' }
+            title: { display: true, text: 'x (USD) — escala fija [25; 75]', color: '#163b68', font: { weight: '700', size: 11 } },
+            ticks: { stepSize: 5, color: '#526171' },
+            grid: { color: '#edf1f5' }
           },
           y: {
             min: 0, max: Y_MAX_FIXED,
-            title: { display: true, text: 'Densidad f(x) — máx. fijo 1,0', color: '#0A1D37', font: { weight: '700', size: 11 } },
-            ticks: { stepSize: 0.2, color: '#475569', callback: v => fmtES(Number(v), 1) },
-            grid: { color: '#EDF2F7' }
+            title: { display: true, text: 'Densidad f(x) — máx. fijo 1,0', color: '#163b68', font: { weight: '700', size: 11 } },
+            ticks: { stepSize: 0.2, color: '#526171', callback: v => fmtES(Number(v), 1) },
+            grid: { color: '#edf1f5' }
           }
         }
       }
@@ -1541,19 +1873,19 @@
         maintainAspectRatio: false,
         parsing: false,
         animation: { duration: animDur() },
-        plugins: { legend: { position: 'top', labels: { boxWidth: 11, font: { size: 11, weight: '600' }, color: '#0F172A' } } },
+        plugins: { legend: { position: 'top', labels: { boxWidth: 11, font: { size: 11, weight: '600' }, color: '#162c43' } } },
         scales: {
           x: {
             type: 'linear', min: 1,
-            title: { display: true, text: 'Índice n (términos finitos)', color: '#0A1D37', font: { weight: '700', size: 11 } },
-            ticks: { maxTicksLimit: 8, color: '#475569' },
-            grid: { color: '#EDF2F7' }
+            title: { display: true, text: 'Índice n (términos finitos)', color: '#163b68', font: { weight: '700', size: 11 } },
+            ticks: { maxTicksLimit: 8, color: '#526171' },
+            grid: { color: '#edf1f5' }
           },
           y: {
             min: 34, max: 66,
-            title: { display: true, text: 'Media muestral (USD)', color: '#0A1D37', font: { weight: '700', size: 11 } },
-            ticks: { color: '#475569' },
-            grid: { color: '#EDF2F7' }
+            title: { display: true, text: 'Media muestral (USD)', color: '#163b68', font: { weight: '700', size: 11 } },
+            ticks: { color: '#526171' },
+            grid: { color: '#edf1f5' }
           }
         }
       }
@@ -1573,6 +1905,13 @@
     function syncActivePresetButtons(n, eps) {
       document.querySelectorAll('.preset-n').forEach(btn => btn.classList.toggle('is-active', Number(btn.dataset.n) === n));
       document.querySelectorAll('.preset-eps').forEach(btn => btn.classList.toggle('is-active', Math.abs(Number(btn.dataset.eps) - eps) < 1e-9));
+    }
+
+    function pulseEl(el) {
+      if (reducedMotionQuery.matches || solidMode) return;
+      el.classList.remove('kpi-pop');
+      void el.offsetWidth;
+      el.classList.add('kpi-pop');
     }
 
     function updateSimulator() {
@@ -1612,8 +1951,15 @@
         : (chebExactFlag ? `≤ ${fmtES(chebEff, 4)}` : `≤ ${fmtES(chebEff, 4)} (aprox.)`);
       document.getElementById('kpiChebExpr').textContent = `mín(1; 100/(${n}·${fmtES(eps, 1)}²)) = mín(1; ${chebRawStr}) ${chebValStr}`;
 
-      document.getElementById('kpiInExact').textContent = fmtInsideProb(pOutExact);
+      const kpiInEl = document.getElementById('kpiInExact');
+      kpiInEl.textContent = fmtInsideProb(pOutExact);
       document.getElementById('kpiInPct').textContent = fmtInsidePct(pOutExact);
+
+      const passedTarget = pInExact >= 0.95;
+      if (lastPassedTarget !== null && passedTarget !== lastPassedTarget) {
+        pulseEl(kpiInEl);
+      }
+      lastPassedTarget = passedTarget;
 
       const zStr = Math.abs(z * 100 - Math.round(z * 100)) < 1e-9 ? `= ${fmtES(z, 2)}` : `≈ ${fmtES(z, 4)}`;
       const chebFormulaTail = chebEff === 1.0 ? `mín(1; ${chebRawStr}) = 1` : `mín(1; ${chebRawStr}) ${chebValStr}`;
@@ -1653,10 +1999,10 @@
 
       densityChart.options.animation.duration = animDur();
       densityChart.data.datasets = [
-        { label: 'Ref. n = 1', data: refPts, borderColor: '#94A3B8', borderDash: [4, 4], borderWidth: 1.4, pointRadius: 0 },
-        { label: `Dentro [${fmtES(lo, 1)}; ${fmtES(hi, 1)}]`, data: insidePts, borderColor: '#0D7377', backgroundColor: 'rgba(13, 115, 119, 0.22)', fill: 'origin', pointRadius: 0, borderWidth: 2.3 },
-        { label: `Colas fuera (|x − 50| ≥ ${fmtES(eps, 1)})`, data: leftOutPts, borderColor: '#B91C1C', backgroundColor: 'rgba(185, 28, 28, 0.34)', fill: 'origin', pointRadius: 0, borderWidth: 2.1 },
-        { label: 'Cola derecha', data: rightOutPts, borderColor: '#B91C1C', backgroundColor: 'rgba(185, 28, 28, 0.34)', fill: 'origin', pointRadius: 0, borderWidth: 2.1 }
+        { label: 'Ref. n = 1', data: refPts, borderColor: '#748396', borderDash: [4, 4], borderWidth: 1.35, pointRadius: 0 },
+        { label: `Dentro [${fmtES(lo, 1)}; ${fmtES(hi, 1)}]`, data: insidePts, borderColor: '#163b68', backgroundColor: 'rgba(22, 59, 104, 0.20)', fill: 'origin', pointRadius: 0, borderWidth: 2.35 },
+        { label: `Colas fuera (|x − 50| ≥ ${fmtES(eps, 1)})`, data: leftOutPts, borderColor: '#9f2536', backgroundColor: 'rgba(159, 37, 54, 0.34)', fill: 'origin', pointRadius: 0, borderWidth: 2.1 },
+        { label: 'Cola derecha', data: rightOutPts, borderColor: '#9f2536', backgroundColor: 'rgba(159, 37, 54, 0.34)', fill: 'origin', pointRadius: 0, borderWidth: 2.1 }
       ];
       densityChart.options.plugins.legend.labels.filter = item => item.text !== 'Cola derecha';
       densityChart.update();
@@ -1666,7 +2012,7 @@
       for (let i = 1; i <= n; i += stride) indices.push(i);
       if (indices[indices.length - 1] !== n) indices.push(n);
 
-      const palette = ['#0D7377', '#2563EB', '#64748B', '#7C3AED', '#0284C7'];
+      const palette = ['#9f2536', '#163b68', '#326d90', '#72456b', '#68788b'];
       const pDatasets = samplePaths.map((arr, idx) => ({
         label: idx === 0 ? 'Trayectoria 1' : `Tray. ${idx + 1}`,
         data: indices.map(i => ({ x: i, y: arr[i - 1] })),
@@ -1676,8 +2022,8 @@
         tension: 0.08
       }));
       pDatasets.push(
-        { label: `50 + ε (${fmtES(hi, 1)})`, data: [{ x: 1, y: hi }, { x: Math.max(2, n), y: hi }], borderColor: '#A66A14', borderDash: [6, 4], borderWidth: 1.5, pointRadius: 0 },
-        { label: `50 − ε (${fmtES(lo, 1)})`, data: [{ x: 1, y: lo }, { x: Math.max(2, n), y: lo }], borderColor: '#A66A14', borderDash: [6, 4], borderWidth: 1.5, pointRadius: 0 }
+        { label: `50 + ε (${fmtES(hi, 1)})`, data: [{ x: 1, y: hi }, { x: Math.max(2, n), y: hi }], borderColor: '#287463', borderDash: [6, 4], borderWidth: 1.5, pointRadius: 0 },
+        { label: `50 − ε (${fmtES(lo, 1)})`, data: [{ x: 1, y: lo }, { x: Math.max(2, n), y: lo }], borderColor: '#287463', borderDash: [6, 4], borderWidth: 1.5, pointRadius: 0 }
       );
       pathChart.options.animation.duration = animDur();
       pathChart.options.scales.x.max = Math.max(2, n);
@@ -1685,11 +2031,75 @@
       pathChart.update();
     }
 
-    document.getElementById('sliderN').addEventListener('input', updateSimulator);
-    document.getElementById('sliderEps').addEventListener('input', updateSimulator);
-    document.querySelectorAll('.preset-n').forEach(btn => btn.addEventListener('click', () => { document.getElementById('sliderN').value = btn.dataset.n; updateSimulator(); }));
-    document.querySelectorAll('.preset-eps').forEach(btn => btn.addEventListener('click', () => { document.getElementById('sliderEps').value = btn.dataset.eps; updateSimulator(); }));
+    /* Animación interactiva de barrido n = 1 -> 500 (pausa breve en el salto 96 -> 97) */
+    const btnPlaySim = document.getElementById('btnPlaySim');
+    let simAnimTimer = null;
+    const ANIM_STEPS = [
+      1, 2, 4, 7, 11, 16, 22, 25, 34, 45, 58, 72, 85, 92, 95,
+      96, 96, 96,
+      97, 97, 97, 97,
+      115, 140, 175, 215, 260, 310, 360, 400, 445, 480, 500
+    ];
+
+    function stopSimAnimation() {
+      if (simAnimTimer !== null) {
+        clearInterval(simAnimTimer);
+        simAnimTimer = null;
+      }
+      simAnimating = false;
+      btnPlaySim.classList.remove('is-playing');
+      btnPlaySim.setAttribute('aria-pressed', 'false');
+      btnPlaySim.textContent = '▶ Animar n = 1 → 500';
+    }
+
+    function startSimAnimation() {
+      const sliderN = document.getElementById('sliderN');
+      if (reducedMotionQuery.matches || solidMode) {
+        // Sin animación continua bajo movimiento reducido: alterna entre hitos clave
+        const milestones = [1, 25, 96, 97, 500];
+        const curr = parseInt(sliderN.value, 10);
+        const next = milestones.find(m => m > curr) || milestones[0];
+        sliderN.value = String(next);
+        updateSimulator();
+        return;
+      }
+      simAnimating = true;
+      btnPlaySim.classList.add('is-playing');
+      btnPlaySim.setAttribute('aria-pressed', 'true');
+      btnPlaySim.textContent = '⏸ Pausar animación';
+      let idx = 0;
+      sliderN.value = String(ANIM_STEPS[idx]);
+      updateSimulator();
+      simAnimTimer = setInterval(() => {
+        idx += 1;
+        if (idx >= ANIM_STEPS.length) {
+          stopSimAnimation();
+          return;
+        }
+        sliderN.value = String(ANIM_STEPS[idx]);
+        updateSimulator();
+      }, 170);
+    }
+
+    btnPlaySim.addEventListener('click', () => {
+      if (simAnimating) stopSimAnimation();
+      else startSimAnimation();
+    });
+
+    document.getElementById('sliderN').addEventListener('input', () => { stopSimAnimation(); updateSimulator(); });
+    document.getElementById('sliderEps').addEventListener('input', () => { stopSimAnimation(); updateSimulator(); });
+    document.querySelectorAll('.preset-n').forEach(btn => btn.addEventListener('click', () => {
+      stopSimAnimation();
+      document.getElementById('sliderN').value = btn.dataset.n;
+      updateSimulator();
+    }));
+    document.querySelectorAll('.preset-eps').forEach(btn => btn.addEventListener('click', () => {
+      stopSimAnimation();
+      document.getElementById('sliderEps').value = btn.dataset.eps;
+      updateSimulator();
+    }));
     document.querySelectorAll('.quick-sim').forEach(btn => btn.addEventListener('click', () => {
+      stopSimAnimation();
       document.getElementById('sliderN').value = btn.dataset.n;
       document.getElementById('sliderEps').value = btn.dataset.eps;
       updateSimulator();
@@ -1700,11 +2110,58 @@
     const toggleSolidBtn = document.getElementById('toggleSolidBtn');
     toggleSolidBtn.addEventListener('click', () => {
       solidMode = !solidMode;
+      if (solidMode) stopSimAnimation();
       document.body.classList.toggle('solid-mode', solidMode);
       toggleSolidBtn.setAttribute('aria-pressed', String(solidMode));
       toggleSolidBtn.textContent = solidMode ? 'Modo Liquid Glass' : 'Paneles opacos';
       updateSimulator();
     });
+
+    /* Scroll progress + header elevation + scroll-spy activo */
+    const progressBar = document.getElementById('scrollProgressBar');
+    const siteHeader = document.getElementById('siteHeader');
+    const spyIds = ['simulador', 'definiciones', 'video', 'ejercicios', 'bibliografia'];
+
+    function updateScrollUI() {
+      const doc = document.documentElement;
+      const scrollTop = window.scrollY || doc.scrollTop;
+      const maxScroll = Math.max(1, doc.scrollHeight - window.innerHeight);
+      progressBar.style.width = `${Math.min(100, (scrollTop / maxScroll) * 100).toFixed(2)}%`;
+      siteHeader.classList.toggle('is-scrolled', scrollTop > 16);
+    }
+    window.addEventListener('scroll', updateScrollUI, { passive: true });
+    window.addEventListener('resize', updateScrollUI, { passive: true });
+
+    if ('IntersectionObserver' in window) {
+      // Revelado editorial progresivo al hacer scroll
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+
+      document.querySelectorAll('.reveal:not(.is-visible)').forEach(el => revealObserver.observe(el));
+
+      // Scroll-spy en navegación de escritorio y móvil
+      const spyObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          const id = entry.target.id;
+          document.querySelectorAll('.desktop-nav a').forEach(a => a.classList.toggle('is-current', a.dataset.section === id));
+          document.querySelectorAll('.mobile-dock a').forEach(a => a.classList.toggle('active-tab', a.dataset.section === id));
+        });
+      }, { rootMargin: '-28% 0px -58% 0px', threshold: 0 });
+
+      spyIds.forEach(id => {
+        const sec = document.getElementById(id);
+        if (sec) spyObserver.observe(sec);
+      });
+    } else {
+      document.querySelectorAll('.reveal').forEach(el => el.classList.add('is-visible'));
+    }
 
     document.querySelectorAll('.mobile-dock a').forEach(link => {
       link.addEventListener('click', () => {
@@ -1774,7 +2231,10 @@ Jerarquía: (c.s. ó L²) ⇒ en probabilidad (→ᴾ) ⇒ en distribución (→
       } catch (e) {}
     });
 
-    window.addEventListener('DOMContentLoaded', updateSimulator);
+    window.addEventListener('DOMContentLoaded', () => {
+      updateSimulator();
+      updateScrollUI();
+    });
   </script>
 </body>
 </html>
