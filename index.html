@@ -583,12 +583,13 @@
 
     .charts-grid {
       display: grid;
+      grid-template-columns: minmax(0, 1fr);
       gap: 1.15rem;
     }
     @media (min-width: 960px) {
-      .charts-grid { grid-template-columns: 1fr 1fr; }
+      .charts-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
-    .chart-block { display: flex; flex-direction: column; gap: 0.48rem; }
+    .chart-block { display: flex; flex-direction: column; gap: 0.48rem; min-width: 0; }
     .chart-head {
       display: flex;
       flex-wrap: wrap;
@@ -615,6 +616,9 @@
     .chart-frame {
       position: relative;
       height: 300px;
+      width: 100%;
+      min-width: 0;
+      overflow: hidden;
       background: #FFFFFF;
       border: 1px solid var(--line);
       border-radius: 16px;
@@ -796,9 +800,16 @@
       overflow: hidden;
     }
     .compare-table th, .compare-table td {
-      padding: 0.62rem 0.78rem;
+      padding: 0.48rem 0.52rem;
       text-align: left;
       border-bottom: 1px solid #E2E8F0;
+    }
+    @media (min-width: 640px) {
+      .compare-table th, .compare-table td { padding: 0.62rem 0.78rem; }
+    }
+    @media (max-width: 639px) {
+      .compare-table { font-size: 0.76rem; }
+      .compare-table .math { white-space: normal; }
     }
     .compare-table th {
       background: var(--navy);
@@ -1298,7 +1309,7 @@
             </div>
             <p>
               <strong>Ilustración numérica</strong> (<span class="math">σ<sup>2</sup> = 100</span>, <span class="math">ε = 15</span>, <span class="math">n = 1001</span>):
-              <span class="math">P[|S<sub>1001</sub><sup>2</sup> − 100| ≥ 15] ≤ mín(1;\; 2(100)<sup>2</sup>/(1000·15<sup>2</sup>)) = 20.000/225.000 = 4/45 ≈ 0,0889</span>.
+              <span class="math">P[|S<sub>1001</sub><sup>2</sup> − 100| ≥ 15] ≤ mín(1;&nbsp;2(100)<sup>2</sup>/(1000·15<sup>2</sup>)) = 20.000/225.000 = 4/45 ≈ 0,0889</span>.
             </p>
             <div class="callout slate">
               <strong>Conclusión rigurosa:</strong> Por el teorema del emparedado, el límite de <span class="math">P[|S<sub>n</sub><sup>2</sup> − σ<sup>2</sup>| ≥ ε]</span> es <span class="math">0</span> para <strong>cualquier <span class="math">ε &gt; 0</span></strong> (no solo para un valor particular como <span class="math">ε = 15</span>). Por la Def. 5.1.2 y el Teor. 5.1.3, queda probado que <span class="math">{S<sub>n</sub><sup>2</sup>} →<sup>P</sup> σ<sup>2</sup></span> (consistencia estocástica).
